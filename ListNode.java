@@ -47,7 +47,10 @@ public class ListNode {
                 temp2 = temp2.next;
             }
         }
+
         if (temp1 != null) {
+            // this iteration can acutally be removed.
+            // simply put temp3.next= temp1
             while (temp1 != null) {
                 temp3.next = new ListNode(temp1.val);
                 temp3 = temp3.next;
@@ -55,6 +58,8 @@ public class ListNode {
             }
         }
         if (temp2 != null) {
+            // this iteration can acutally be removed.
+            // simply put temp3.next= temp2
             while (temp2 != null) {
                 temp3.next = new ListNode(temp2.val);
                 temp3 = temp3.next;
