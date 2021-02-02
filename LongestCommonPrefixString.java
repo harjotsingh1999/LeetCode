@@ -2,8 +2,14 @@ import java.util.Scanner;
 
 class LongestCommonPrefixString {
     public String longestCommonPrefix(String[] strs) {
-        String lcp = "";
-        String fsp = "";
+        if (strs.length == 0)
+            return "";
+        String lcp = ""; // longest common prefix of all strings
+        String fsp = ""; // prefix of the first String
+
+        // incrementing characters of the first string to the lcp as long as all other
+        // strings have the same prefix as well
+        // the moment a mismath occurs, return the last stored common prefix
         for (char ch : strs[0].toCharArray()) {
             fsp += ch;
             System.out.println("check all Strings for prefix " + fsp);

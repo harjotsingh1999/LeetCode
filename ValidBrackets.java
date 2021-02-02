@@ -1,0 +1,43 @@
+import java.util.Scanner;
+import java.util.Stack;
+
+public class ValidBrackets {
+    public boolean isValid(String s) {
+        Stack<Character> stack = new Stack<>();
+        for (char ch : s.toCharArray()) {
+            if (stack.isEmpty() && isClosingBracket(ch))
+                return false;
+            else if (isOpeningBracket(ch))
+                stack.add(ch);
+            else if (isClosingBracket(ch) && isOfSameType(stack.peek(), ch))
+                stack.pop();
+            else
+                return false;
+        }
+        if (stack.isEmpty())
+            return true;
+        else
+            return false;
+    }
+
+    public boolean isOpeningBracket(char ch) {
+        return ch == '(' || ch == '{' || ch == '[';
+    }
+
+    public boolean isClosingBracket(char ch) {
+        return ch == ')' || ch == '}' || ch == ']';
+    }
+
+    public boolean isOfSameType(char ch1, char ch2) {
+        return (ch1 == '(' && ch2 == ')') || (ch1 == '[' && ch2 == ']') || (ch1 == '{' && ch2 == '}');
+    }
+
+    public static void main(String[] args) {
+        ValidBrackets vBrackets = new ValidBrackets();
+        System.out.println("Enter a parenthesis string");
+        Scanner read = new Scanner(System.in);
+        String str = read.next();
+        System.out.println("is expression " + str + " valid: " + vBrackets.isValid(str));
+        read.close();
+    }
+}
