@@ -69,6 +69,20 @@ public class ListNode {
         return newNode;
     }
 
+    public ListNode deleteDuplicates(ListNode head) {
+        ListNode prev = null, current = head;
+        while (current != null) {
+            if (prev != null && current.val == prev.val) {
+                prev.next = current.next;
+                current = current.next;
+            } else {
+                prev = current;
+                current = current.next;
+            }
+        }
+        return head;
+    }
+
     public void printList(ListNode listNode) {
         ListNode temp = listNode;
         while (temp != null) {
@@ -101,13 +115,13 @@ public class ListNode {
         ListNode listNode = new ListNode();
         System.out.println("Enter length of first list");
         int l1 = listNode.read.nextInt();
-        System.out.println("Enter len of second list");
-        int l2 = listNode.read.nextInt();
+        // System.out.println("Enter len of second list");
+        // int l2 = listNode.read.nextInt();
         ListNode list1 = listNode.createList(l1);
         listNode.printList(list1);
-        ListNode list2 = listNode.createList(l2);
-        listNode.printList(list2);
-        ListNode list3 = listNode.mergeTwoLists(list1, list2);
+        // ListNode list2 = listNode.createList(l2);
+        // listNode.printList(list2);
+        ListNode list3 = listNode.deleteDuplicates(list1);
         listNode.printList(list3);
         listNode.read.close();
     }
