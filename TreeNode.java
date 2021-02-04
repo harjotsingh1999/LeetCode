@@ -1,0 +1,158 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+
+public class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNode() {
+    }
+
+    TreeNode(int val) {
+        this.val = val;
+    }
+
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+
+    public void printPreOrderRecursive(TreeNode root) {
+        if (root == null)
+            return;
+        System.out.print(root.val + " ");
+        printPreOrderRecursive(root.left);
+        printPreOrderRecursive(root.right);
+    }
+
+    public void printPostOrderRecursive(TreeNode root) {
+        if (root == null)
+            return;
+        printPostOrderRecursive(root.left);
+        printPostOrderRecursive(root.right);
+        System.out.print(root.val + " ");
+    }
+
+    public void printInOrderRecursive(TreeNode root) {
+        if (root == null)
+            return;
+        printInOrderRecursive(root.left);
+        System.out.print(root.val + " ");
+        printInOrderRecursive(root.right);
+    }
+
+    public void printPreOrderIterative(TreeNode root) {
+        if (root == null)
+            return;
+        Stack<TreeNode> stack = new Stack<>();
+        stack.add(root);
+        while (!stack.isEmpty()) {
+            TreeNode current = stack.pop();
+            System.out.print(current.val + " ");
+            if (current.right != null)
+                stack.add(current.right);
+            if (current.left != null)
+                stack.add(current.left);
+        }
+    }
+
+    public void printLevelOrder(TreeNode root) {
+        if (root == null)
+            return;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            TreeNode current = queue.poll();
+            System.out.print(current.val + " ");
+            if (current.left != null)
+                queue.add(current.left);
+            if (current.right != null)
+                queue.add(current.right);
+        }
+    }
+
+    public void printTreeLevelByLevel(TreeNode root) {
+        if (root == null)
+            return;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            // count the nodes in a current level by usigng queue.size()
+            // then change a line after all nodes in this level are read
+
+            int levelSize = queue.size();
+            while (levelSize > 0) {
+                TreeNode current = queue.poll();
+                System.out.print(current.val + " ");
+                if (current.left != null)
+                    queue.add(current.left);
+                if (current.right != null)
+                    queue.add(current.right);
+                levelSize -= 1;
+            }
+            System.out.println();
+        }
+    }
+
+    public int heightOfTree(TreeNode root) {
+        if (root == null)
+            return 0;
+        else
+            return 1 + Math.max(heightOfTree(root.left), heightOfTree(root.right));
+    }
+
+    // Given the roots of two binary trees p and q, write a function to check if
+    // they are the same or not.
+
+    // Two binary trees are considered the same if they are structurally identical,
+    // and the nodes have the same value.
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        return checkSameTree(p, q);
+    }
+
+    public boolean checkSameTree(TreeNode p, TreeNode q) {
+        if (p == null && q == null)
+            return true;
+        if (p == null || q == null)
+            return false;
+        else
+            return p.val == q.val && checkSameTree(p.left, q.left) && checkSameTree(p.right, q.right);
+    }
+
+    public boolean isSymmetric(TreeNode root) {
+        return checkSymmetric(root, root);
+    }
+
+    public boolean checkSymmetric(TreeNode root1, TreeNode root2) {
+        if (root1 == null && root2 == null)
+            return true;
+        if (root1 == null || root2 == null)
+            return false;
+        return (root1.val == root2.val) && checkSymmetric(root1.left, root2.right)
+                && checkSymmetric(root1.right, root2.left);
+    }
+
+    public static void main(String[] args) {
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(3);
+        root.left.left = new TreeNode(4);
+        root.left.right = new TreeNode(5);
+        root.right.left = new TreeNode(6);
+        root.right.right = new TreeNode(7);
+        root.printTreeLevelByLevel(root);
+        TreeNode root2 = new TreeNode(1);
+        root2.left = new TreeNode(2);
+        root2.right = new TreeNode(3);
+        root2.left.left = new TreeNode(4);
+        root2.left.right = new TreeNode(5);
+        root2.right.left = new TreeNode(6);
+        root2.right.right = new TreeNode(7);
+        root2.printTreeLevelByLevel(root2);
+
+        System.out.println(root.checkSameTree(root, root2));
+    }
+}
