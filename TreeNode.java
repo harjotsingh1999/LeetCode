@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -104,6 +106,50 @@ public class TreeNode {
             return 1 + Math.max(heightOfTree(root.left), heightOfTree(root.right));
     }
 
+    // Given a binary tree, return the bottom-up level order traversal of its nodes'
+    // values. (ie, from left to right, level by level from leaf to root).
+
+    // For example:
+    // Given binary tree [3,9,20,null,null,15,7],
+
+    // 3
+    // / \
+    // 9 20
+    // / \
+    // 15 7
+
+    // return its bottom-up level order traversal as:
+
+    // [
+    // [15,7],
+    // [9,20],
+    // [3]
+    // ]
+
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        List<List<Integer>> out = new ArrayList<List<Integer>>();
+        if (root == null)
+            return out;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            // count the nodes in a current level by usigng queue.size()
+            // then change a line after all nodes in this level are read
+
+            int levelSize = queue.size();
+            while (levelSize > 0) {
+                TreeNode current = queue.poll();
+                System.out.print(current.val + " ");
+                if (current.left != null)
+                    queue.add(current.left);
+                if (current.right != null)
+                    queue.add(current.right);
+                levelSize -= 1;
+            }
+            System.out.println();
+        }
+    }
+
     // Given the roots of two binary trees p and q, write a function to check if
     // they are the same or not.
 
@@ -133,6 +179,35 @@ public class TreeNode {
             return false;
         return (root1.val == root2.val) && checkSymmetric(root1.left, root2.right)
                 && checkSymmetric(root1.right, root2.left);
+    }
+
+    // Time complexity : O(n). Because we traverse the entire input tree
+    // once, the total run time is O(n), where nnn is the total number of
+    // nodes in the tree.
+
+    // Space complexity : There is additional space required for the search queue.
+    // In the worst case, we have to insert O(n) nodes in the queue.
+    // Therefore, space complexity is O(n).
+
+    public boolean isSymmetricIterative(TreeNode root) {
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
+        q.add(root);
+        while (!q.isEmpty()) {
+            TreeNode t1 = q.poll();
+            TreeNode t2 = q.poll();
+            if (t1 == null && t2 == null)
+                continue;
+            if (t1 == null || t2 == null)
+                return false;
+            if (t1.val != t2.val)
+                return false;
+            q.add(t1.left);
+            q.add(t2.right);
+            q.add(t1.right);
+            q.add(t2.left);
+        }
+        return true;
     }
 
     public static void main(String[] args) {
