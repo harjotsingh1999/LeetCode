@@ -250,6 +250,43 @@ public class TreeNode {
                 && isBalanced(root.right);
     }
 
+    public int minDepth(TreeNode root) {
+        if (root == null)
+            return 0;
+        else if (root.left == null)
+            return 1 + minHeightOfTree(root.right);
+        else if (root.right == null)
+            return 1 + minHeightOfTree(root.left);
+        return minHeightOfTree(root);
+    }
+
+    public int minHeightOfTree(TreeNode root) {
+        if (root == null)
+            return 0;
+        if (root.left == null && root.right == null)
+            return 1;
+        if (null == root.left)
+            return 1 + minHeightOfTree(root.right);
+        if (null == root.right)
+            return 1 + minHeightOfTree(root.left);
+        else
+            return 1 + Math.min(minHeightOfTree(root.left), minHeightOfTree(root.right));
+    }
+
+    // Given the root of a binary tree and an integer targetSum, return true if the
+    // tree has a root-to-leaf path such that adding up all the values along the
+    // path equals targetSum.
+    // A leaf is a node with no children.
+
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        if (root == null)
+            return false;
+        if (root.left == null && root.right == null && root.val == targetSum)
+            return true;
+        else
+            return hasPathSum(root.left, targetSum - root.val) || hasPathSum(root.right, targetSum - root.val);
+    }
+
     public static void main(String[] args) {
         TreeNode root = new TreeNode(1);
         root.left = new TreeNode(2);
