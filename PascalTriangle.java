@@ -37,8 +37,12 @@ public class PascalTriangle {
         return out;
     }
 
+    public List<Integer> getRow(int rowIndex) {
+        return generate(rowIndex + 1).get(rowIndex);
+    }
+
     public static void main(String[] args) {
         PascalTriangle pTriangle = new PascalTriangle();
-        System.out.println(pTriangle.generate(0));
+        System.out.println(pTriangle.getRow(4));
     }
 }

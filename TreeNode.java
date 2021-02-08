@@ -50,14 +50,14 @@ public class TreeNode {
         if (root == null)
             return;
         Stack<TreeNode> stack = new Stack<>();
-        stack.add(root);
-        while (!stack.isEmpty()) {
+        stack.push(root);
+        while (!stack.empty()) {
             TreeNode current = stack.pop();
             System.out.print(current.val + " ");
             if (current.right != null)
-                stack.add(current.right);
+                stack.push(current.right);
             if (current.left != null)
-                stack.add(current.left);
+                stack.push(current.left);
         }
     }
 
