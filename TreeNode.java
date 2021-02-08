@@ -126,6 +126,7 @@ public class TreeNode {
     // [3]
     // ]
 
+    // instead of adding currentrow to index 0 we can use a stack as well
     public List<List<Integer>> levelOrderBottom(TreeNode root) {
         List<List<Integer>> out = new ArrayList<List<Integer>>();
         if (root == null)
@@ -137,17 +138,21 @@ public class TreeNode {
             // then change a line after all nodes in this level are read
 
             int levelSize = queue.size();
+            List<Integer> currentRow = new ArrayList<Integer>();
             while (levelSize > 0) {
                 TreeNode current = queue.poll();
                 System.out.print(current.val + " ");
+                currentRow.add(current.val);
                 if (current.left != null)
                     queue.add(current.left);
                 if (current.right != null)
                     queue.add(current.right);
                 levelSize -= 1;
             }
+            out.add(0, currentRow);
             System.out.println();
         }
+        return out;
     }
 
     // Given the roots of two binary trees p and q, write a function to check if
@@ -210,6 +215,41 @@ public class TreeNode {
         return true;
     }
 
+    // Given an array where elements are sorted in ascending order, convert it to a
+    // height balanced BST.
+
+    // For this problem, a height-balanced binary tree is defined as a binary tree
+    // in which the depth of the two subtrees of every node never differ by more
+    // than 1.
+
+    public TreeNode sortedArrayToBST(int[] nums) {
+        return create(0, nums.length - 1, nums);
+    }
+
+    private TreeNode create(int lo, int hi, int[] nums) {
+        if (lo > hi)
+            return null;
+        int mid = (lo + hi) / 2;
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = create(lo, mid - 1, nums);
+        root.right = create(mid + 1, hi, nums);
+        return root;
+    }
+
+    // Given a binary tree, determine if it is height-balanced.
+
+    // For this problem, a height-balanced binary tree is defined as:
+
+    // a binary tree in which the left and right subtrees of every node differ in
+    // height by no more than 1.
+
+    public boolean isBalanced(TreeNode root) {
+        if (root == null)
+            return true;
+        return Math.abs(heightOfTree(root.left) - heightOfTree(root.right)) <= 1 && isBalanced(root.left)
+                && isBalanced(root.right);
+    }
+
     public static void main(String[] args) {
         TreeNode root = new TreeNode(1);
         root.left = new TreeNode(2);
@@ -228,6 +268,8 @@ public class TreeNode {
         root2.right.right = new TreeNode(7);
         root2.printTreeLevelByLevel(root2);
 
-        System.out.println(root.checkSameTree(root, root2));
+        // System.out.println(root.checkSameTree(root, root2));
+        int[] arr = { -10, -3, 0, 5, 9 };
+        root.printTreeLevelByLevel(root.sortedArrayToBST(arr));
     }
 }
