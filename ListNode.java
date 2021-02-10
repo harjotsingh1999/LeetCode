@@ -142,6 +142,48 @@ public class ListNode {
         return true;
     }
 
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null)
+            return null;
+        if (headA == headB)
+            return headA;
+        int lenA = 0;
+        ListNode tempA = headA;
+        while (tempA != null) {
+            lenA += 1;
+            tempA = tempA.next;
+        }
+        int lenB = 0;
+        ListNode tempB = headB;
+        while (tempB != null) {
+            lenB += 1;
+            tempB = tempB.next;
+        }
+
+        tempA = headA;
+        tempB = headB;
+
+        // give a headstart to the longer list
+        // so that both pointers are at the same distance from the end(or intersection)
+        if (lenA < lenB) {
+            for (int i = 1; i <= lenB - lenA; i++) {
+                tempB = tempB.next;
+            }
+        } else if (lenB < lenA) {
+            for (int i = 1; i <= lenA - lenB; i++) {
+                tempA = tempA.next;
+            }
+        }
+
+        while (tempA != null && tempB != null) {
+            if (tempA == tempB)
+                return tempA;
+            tempA = tempA.next;
+            tempB = tempB.next;
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
 
         // ListNode listNode = new ListNode();
