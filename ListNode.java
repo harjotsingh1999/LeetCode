@@ -1,3 +1,4 @@
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class ListNode {
@@ -110,19 +111,56 @@ public class ListNode {
         return head;
     }
 
+    public boolean hasCycle1(ListNode head) {
+        // to check visited nodes
+        HashSet<ListNode> set = new HashSet<>();
+        ListNode temp = head;
+        while (temp != null) {
+            if (set.contains(temp))
+                return true;
+            set.add(temp);
+            temp = temp.next;
+        }
+        return false;
+    }
+
+    public boolean hasCycle(ListNode head) {
+        if (head == null)
+            return false;
+        ListNode slow = head, fast = head.next;
+        while (fast != slow) {
+
+            // if we reach the end of list
+            // return false
+            // else continue until fast!=slow
+            // and return true
+            if (fast == null || fast.next == null)
+                return false;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
 
-        ListNode listNode = new ListNode();
-        System.out.println("Enter length of first list");
-        int l1 = listNode.read.nextInt();
-        // System.out.println("Enter len of second list");
-        // int l2 = listNode.read.nextInt();
-        ListNode list1 = listNode.createList(l1);
-        listNode.printList(list1);
-        // ListNode list2 = listNode.createList(l2);
-        // listNode.printList(list2);
-        ListNode list3 = listNode.deleteDuplicates(list1);
-        listNode.printList(list3);
-        listNode.read.close();
+        // ListNode listNode = new ListNode();
+        // System.out.println("Enter length of first list");
+        // int l1 = listNode.read.nextInt();
+        // // System.out.println("Enter len of second list");
+        // // int l2 = listNode.read.nextInt();
+        // ListNode list1 = listNode.createList(l1);
+        // listNode.printList(list1);
+        // // ListNode list2 = listNode.createList(l2);
+        // // listNode.printList(list2);
+        // ListNode list3 = listNode.deleteDuplicates(list1);
+        // listNode.printList(list3);
+        // listNode.read.close();
+
+        ListNode head = new ListNode(1);
+        head.next = new ListNode(2);
+        head.next.next = new ListNode(3);
+        head.next.next.next = head;
+        System.out.println(head.hasCycle(head));
     }
 }
