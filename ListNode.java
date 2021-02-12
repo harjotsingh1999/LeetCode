@@ -184,6 +184,39 @@ public class ListNode {
         return null;
     }
 
+    // Remove all elements from a linked list of integers that have value val.
+    public ListNode removeElements(ListNode head, int val) {
+        if (head == null)
+            return null;
+        ListNode prev = null, current = head, tempHead = head;
+        while (current != null) {
+            if (current.val == val) {
+                // if current is head
+                if (current == tempHead) {
+                    tempHead = current.next;
+                    current = current.next;
+                    prev = null;
+                }
+                // if current is last node
+                else if (current.next == null) {
+                    if (prev != null) {
+                        current = current.next;
+                        prev.next = current;
+                    }
+                }
+                // otherwise
+                else {
+                    current = current.next;
+                    prev.next = current;
+                }
+            } else {
+                prev = current;
+                current = current.next;
+            }
+        }
+        return tempHead;
+    }
+
     public static void main(String[] args) {
 
         // ListNode listNode = new ListNode();
