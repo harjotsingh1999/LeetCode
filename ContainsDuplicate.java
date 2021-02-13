@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class ContainsDuplicate {
@@ -29,9 +30,20 @@ public class ContainsDuplicate {
     // distinct indices i and j in the array such that nums[i] = nums[j] and the
     // absolute difference between i and j is at most k.
 
-    // public boolean containsNearbyDuplicate(int[] nums, int k) {
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
 
-    // }
+            // if this number already exists in the map
+            // with absolute difference in indices <=k
+            // return true otherwise add this number
+            if (map.containsKey(nums[i]) && i - map.get(nums[i]) <= k)
+                return true;
+            else
+                map.put(nums[i], i);
+        }
+        return false;
+    }
 
     public int binarySearch(int[] nums, int target, int low, int high) {
         if (low > high)
