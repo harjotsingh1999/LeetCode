@@ -1,8 +1,6 @@
 import java.util.HashSet;
 import java.util.Scanner;
 
-import jdk.nashorn.internal.ir.TemplateLiteral;
-
 public class ListNode {
     int val;
     ListNode next;
