@@ -1,6 +1,8 @@
 import java.util.HashSet;
 import java.util.Scanner;
 
+import jdk.nashorn.internal.ir.TemplateLiteral;
+
 public class ListNode {
     int val;
     ListNode next;
@@ -217,25 +219,49 @@ public class ListNode {
         return tempHead;
     }
 
+    public ListNode reverseList(ListNode head) {
+        if (head == null)
+            return null;
+
+        ListNode prev = null, current = head, temp = head.next;
+        while (temp != null) {
+            if (current == head) {
+                current.next = prev;
+                prev = current;
+                current = temp;
+                temp = temp.next;
+            } else {
+                current.next = prev;
+                prev = current;
+                current = temp;
+                temp = temp.next;
+            }
+        }
+        current.next = prev;
+        return current;
+    }
+
     public static void main(String[] args) {
 
-        // ListNode listNode = new ListNode();
-        // System.out.println("Enter length of first list");
-        // int l1 = listNode.read.nextInt();
+        ListNode listNode = new ListNode();
+        System.out.println("Enter length of first list");
+        int l1 = listNode.read.nextInt();
         // // System.out.println("Enter len of second list");
         // // int l2 = listNode.read.nextInt();
-        // ListNode list1 = listNode.createList(l1);
-        // listNode.printList(list1);
+        ListNode list1 = listNode.createList(l1);
+        listNode.printList(list1);
         // // ListNode list2 = listNode.createList(l2);
         // // listNode.printList(list2);
-        // ListNode list3 = listNode.deleteDuplicates(list1);
+        // ListNode list3 = listNode.deleteDuplicates(list1);5
         // listNode.printList(list3);
-        // listNode.read.close();
+        ListNode l = listNode.reverseList(list1);
+        listNode.printList(l);
+        listNode.read.close();
 
-        ListNode head = new ListNode(1);
-        head.next = new ListNode(2);
-        head.next.next = new ListNode(3);
-        head.next.next.next = head;
-        System.out.println(head.hasCycle(head));
+        // ListNode head = new ListNode(1);
+        // head.next = new ListNode(2);
+        // head.next.next = new ListNode(3);
+        // head.next.next.next = head;
+        // System.out.println(head.hasCycle(head));
     }
 }
