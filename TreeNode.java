@@ -354,17 +354,17 @@ public class TreeNode {
 
     // Given a binary search tree (BST), find the lowest common ancestor (LCA) of
     // two given nodes in the BST.
-    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    public TreeNode lowestCommonAncestorBST(TreeNode root, TreeNode p, TreeNode q) {
 
         // if both values are smaller than root
         // they both lie on the left side of tre
         // hence traverse down further
         if (p.val < root.val && q.val < root.val)
-            return lowestCommonAncestor(root.left, p, q);
+            return lowestCommonAncestorBST(root.left, p, q);
 
         // opposite case of the above
         if (p.val > root.val && q.val > root.val)
-            return lowestCommonAncestor(root.right, p, q);
+            return lowestCommonAncestorBST(root.right, p, q);
 
         // if both values lie on either side of the root
         // means root is the only common ancestor
@@ -375,7 +375,8 @@ public class TreeNode {
     // This is possible without using a stack or recursion since we don't need to
     // backtrace to find the LCA node. In essence of it the problem is iterative, it
     // just wants us to find the split point.
-    public TreeNode lowestCommonAncestorIterative(TreeNode root, TreeNode p, TreeNode q) {
+    // this is for a BST
+    public TreeNode lowestCommonAncestorBSTIterative(TreeNode root, TreeNode p, TreeNode q) {
         if (root == null)
             return null;
         int pval = p.val;
@@ -390,6 +391,49 @@ public class TreeNode {
                 return current;
         }
         return null;
+    }
+
+    // for a normal tree
+    // you can store the nodes incurred in the paths from the root to that node
+    // in two arrays
+    // and then traverse the arrays to return the lowest common ancestor
+
+    // below is the recursive approach
+
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null)
+            return null;
+
+        // if root matches with any of these nodes
+        // we return the same to the parent call
+        if (root == p || root == q)
+            return root;
+        // if this is a leaf node
+        // we return null to the parent call
+        else if (root.left == null && root.right == null)
+            return null;
+
+        // we recursively travel the left and right subtrees
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+
+        // this means that p and q lie on different sides of root
+        // hence root is lca
+        if (left != null && right != null)
+            return root;
+        // neither p and q were found on the left or right side of root
+        // return null
+        else if (left == null && right == null)
+            return null;
+
+        // return whichever is not null
+        else {
+            if (left == null)
+                return right;
+            return left;
+        }
+        // return left != null ? right != null ? root : left : right != null ? right :
+        // null;
     }
 
     public static void main(String[] args) {
