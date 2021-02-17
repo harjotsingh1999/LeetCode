@@ -337,6 +337,14 @@ public class ListNode {
     // node to be deleted directly.
 
     // It is guaranteed that the node to be deleted is not a tail node in the list.
+    public void deleteNode(ListNode node) {
+        // since this is not the last node
+        // we can just copy the value of next node to this node
+        // and point this node to where the next node is pointing
+        // essentially removing the next node after this
+        node.val = node.next.val;
+        node.next = node.next.next;
+    }
 
     public static void main(String[] args) {
 
