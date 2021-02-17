@@ -352,6 +352,46 @@ public class TreeNode {
         return root;
     }
 
+    // Given a binary search tree (BST), find the lowest common ancestor (LCA) of
+    // two given nodes in the BST.
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+
+        // if both values are smaller than root
+        // they both lie on the left side of tre
+        // hence traverse down further
+        if (p.val < root.val && q.val < root.val)
+            return lowestCommonAncestor(root.left, p, q);
+
+        // opposite case of the above
+        if (p.val > root.val && q.val > root.val)
+            return lowestCommonAncestor(root.right, p, q);
+
+        // if both values lie on either side of the root
+        // means root is the only common ancestor
+        return root;
+
+    }
+
+    // This is possible without using a stack or recursion since we don't need to
+    // backtrace to find the LCA node. In essence of it the problem is iterative, it
+    // just wants us to find the split point.
+    public TreeNode lowestCommonAncestorIterative(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null)
+            return null;
+        int pval = p.val;
+        int qval = q.val;
+        TreeNode current = root;
+        while (current != null) {
+            if (current.val > pval && current.val > qval)
+                current = current.left;
+            else if (current.val < pval && current.val < qval)
+                current = current.right;
+            else
+                return current;
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         TreeNode root = new TreeNode(1);
         root.left = new TreeNode(2);
