@@ -1,5 +1,6 @@
 import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class ListNode {
     int val;
@@ -239,6 +240,98 @@ public class ListNode {
         return current;
     }
 
+    public boolean isPalindrome(ListNode head) {
+        if (head == null)
+            return true;
+        if (head.next == null)
+            return true;
+        int length = 0;
+        ListNode temp = head;
+        while (temp != null) {
+            temp = temp.next;
+            length += 1;
+        }
+        System.out.println("length= " + length);
+        temp = head;
+        Stack<Integer> stack = new Stack<>();
+        if (length % 2 == 0) {
+            for (int i = 0; i < length; i++) {
+                if (i < length / 2) {
+                    System.out.println("ListNode.isPalindrome() index= " + i);
+                    System.out.println("ListNode.isPalindrome() push to stack " + temp.val);
+                    stack.push(temp.val);
+                    temp = temp.next;
+                } else {
+                    System.out.println("ListNode.isPalindrome() index= " + i);
+                    if (temp.val != stack.peek())
+                        return false;
+                    else {
+                        temp = temp.next;
+                        stack.pop();
+                    }
+                }
+            }
+            if (!stack.empty())
+                return false;
+            return true;
+        } else {
+            for (int i = 0; i < length; i++) {
+                if (i < length / 2) {
+                    System.out.println("ListNode.isPalindrome() index= " + i);
+                    stack.push(temp.val);
+                    System.out.println("ListNode.isPalindrome() push to stack " + temp.val);
+                    temp = temp.next;
+                } else {
+                    System.out.println("ListNode.isPalindrome() index= " + i);
+                    if (i == length / 2) {
+                        temp = temp.next;
+                        continue;
+                    }
+                    if (temp.val != stack.peek())
+                        return false;
+                    else {
+                        temp = temp.next;
+                        stack.pop();
+                    }
+                }
+            }
+            if (!stack.empty())
+                return false;
+            return true;
+        }
+    }
+
+    public boolean isPalindrome2(ListNode head) {
+        if (head == null)
+            return true;
+        if (head.next == null)
+            return true;
+        int length = 0;
+        ListNode temp = head;
+        while (temp != null) {
+            temp = temp.next;
+            length += 1;
+        }
+        System.out.println("length= " + length);
+        temp = head;
+        int[] arr = new int[length];
+        int i = 0;
+        while (temp != null) {
+            arr[i] = temp.val;
+            i += 1;
+            temp = temp.next;
+        }
+        int start = 0, end = length - 1;
+        while (start < end) {
+            if (arr[start] == arr[end]) {
+                start += 1;
+                end -= 1;
+            } else
+                return false;
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
 
         ListNode listNode = new ListNode();
@@ -252,8 +345,8 @@ public class ListNode {
         // // listNode.printList(list2);
         // ListNode list3 = listNode.deleteDuplicates(list1);5
         // listNode.printList(list3);
-        ListNode l = listNode.reverseList(list1);
-        listNode.printList(l);
+
+        System.out.println(list1.isPalindrome2(list1));
         listNode.read.close();
 
         // ListNode head = new ListNode(1);
