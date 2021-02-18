@@ -436,6 +436,33 @@ public class TreeNode {
         // null;
     }
 
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> list = new ArrayList<>();
+        if (root == null)
+            return list;
+        rootToLeafPathsDFS(root, new StringBuilder(), list);
+        return list;
+    }
+
+    private void rootToLeafPathsDFS(TreeNode root, StringBuilder stringBuilder, List<String> paths) {
+        stringBuilder.append(root.val);
+        if (root.left == null && root.right == null) {
+            // if a lead node
+            // end current loop and add the current path to the list
+            paths.add(stringBuilder.toString());
+        }
+
+        // if not a leaf node
+        // append an arrow
+        // and continue down further
+        if (root.left != null) {
+            rootToLeafPathsDFS(root.left, new StringBuilder(stringBuilder).append("->"), paths);
+        }
+        if (root.right != null) {
+            rootToLeafPathsDFS(root.right, new StringBuilder(stringBuilder).append("->"), paths);
+        }
+    }
+
     public static void main(String[] args) {
         TreeNode root = new TreeNode(1);
         root.left = new TreeNode(2);
@@ -445,6 +472,7 @@ public class TreeNode {
         root.right.left = new TreeNode(6);
         root.right.right = new TreeNode(7);
         root.printTreeLevelByLevel(root);
+        System.out.println(root.binaryTreePaths(root).toString());
         // TreeNode root2 = new TreeNode(1);
         // root2.left = new TreeNode(2);
         // root2.right = new TreeNode(3);
@@ -458,7 +486,7 @@ public class TreeNode {
         // int[] arr = { -10, -3, 0, 5, 9 };
         // root.printTreeLevelByLevel(root.sortedArrayToBST(arr));
 
-        TreeNode r = root.invertTree(root);
-        root.printTreeLevelByLevel(r);
+        // TreeNode r = root.invertTree(root);
+        // root.printTreeLevelByLevel(r);
     }
 }

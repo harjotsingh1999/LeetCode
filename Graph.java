@@ -46,6 +46,27 @@ public class Graph {
         }
     }
 
+    public void DFS(int startingVertex, int numberofVertices, ArrayList<ArrayList<Integer>> adjMatrix) {
+        boolean[] visited = new boolean[numberofVertices];
+        DFSUtil(startingVertex, visited, adjMatrix);
+    }
+
+    public void DFSUtil(int vertex, boolean[] visited, ArrayList<ArrayList<Integer>> adjMatrix) {
+
+        // mark this vertex as visited
+        visited[vertex] = true;
+
+        // print it
+        System.out.println(vertex + ", ");
+
+        // then for all its adjascent vertices
+        // perform the same action if they are not already visited
+        for (int v : adjMatrix.get(vertex)) {
+            if (!visited[v])
+                DFSUtil(v, visited, adjMatrix);
+        }
+    }
+
     public static void main(String[] args) {
         int nVertices = 5;
         ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
