@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Palindrome {
 
     // faster than 5%
@@ -50,8 +52,69 @@ public class Palindrome {
         return true;
     }
 
+    // Write a function that reverses a string. The input string is given as an
+    // array of characters char[].
+
+    // Do not allocate extra space for another array, you must do this by modifying
+    // the input array in-place with O(1) extra memory.
+
+    // You may assume all the characters consist of printable ascii characters.
+    public void reverseString(char[] s) {
+        int start = 0, end = s.length - 1;
+        while (start < end) {
+            char temp = s[start];
+            s[start] = s[end];
+            s[end] = temp;
+            start += 1;
+            end -= 1;
+        }
+    }
+
+    // Write a function that takes a string as input and reverse only the vowels of
+    // a string.
+
+    // Example 1:
+
+    // Input: "hello"
+    // Output: "holle"
+
+    // Example 2:
+
+    // Input: "leetcode"
+    // Output: "leotcede"
+
+    // Note:
+    // The vowels does not include the letter "y".
+
+    public String reverseVowels(String s) {
+        char[] arr = s.toCharArray();
+        int start = 0, end = arr.length - 1;
+        while (start < end) {
+            if (!isVowel(arr[start]) && !isVowel(arr[end])) {
+                start += 1;
+                end -= 1;
+            } else if (!isVowel(arr[start])) {
+                start += 1;
+            } else if (!isVowel(arr[end])) {
+                end -= 1;
+            } else {
+                char temp = arr[start];
+                arr[start] = arr[end];
+                arr[end] = temp;
+                start += 1;
+                end -= 1;
+            }
+        }
+        return new String(arr);
+    }
+
+    public boolean isVowel(char ch) {
+        return ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u' || ch == 'A' || ch == 'E' || ch == 'I'
+                || ch == 'O' || ch == 'U';
+    }
+
     public static void main(String[] args) {
         Palindrome palindrome = new Palindrome();
-        System.out.println(palindrome.isPalindrome2("A man, a plan, a canal: Panama"));
+        System.out.println(palindrome.reverseVowels("aA"));
     }
 }

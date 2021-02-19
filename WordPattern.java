@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.StringTokenizer;
 
 public class WordPattern {
 
