@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 public class StringProblems {
 
@@ -164,8 +165,85 @@ public class StringProblems {
         return list;
     }
 
+    // Given two non-negative integers num1 and num2 represented as string, return
+    // the sum of num1 and num2.
+
+    // Note:
+
+    // The length of both num1 and num2 is < 5100.
+    // Both num1 and num2 contains only digits 0-9.
+    // Both num1 and num2 does not contain any leading zero.
+    // You must not use any built-in BigInteger library or convert the inputs to
+    // integer directly.
+
+    public String addStrings(String num1, String num2) {
+
+        int i = num1.length() - 1;
+        int j = num2.length() - 1;
+        String sum = "";
+        int carry = 0;
+        while (i >= 0 && j >= 0) {
+            int d1 = Integer.parseInt(String.valueOf(num1.charAt(i)));
+            int d2 = Integer.parseInt(String.valueOf(num2.charAt(j)));
+            int s = d1 + d2 + carry;
+            sum = String.valueOf(s % 10) + sum;
+            carry = s / 10;
+            i -= 1;
+            j -= 1;
+        }
+        while (i >= 0) {
+            int d1 = Integer.parseInt(String.valueOf(num1.charAt(i)));
+            int s = d1 + carry;
+            sum = String.valueOf(s % 10) + sum;
+            carry = s / 10;
+            i -= 1;
+        }
+        while (j >= 0) {
+            int d2 = Integer.parseInt(String.valueOf(num2.charAt(j)));
+            int s = d2 + carry;
+            sum = String.valueOf(s % 10) + sum;
+            carry = s / 10;
+            j -= 1;
+        }
+        if (carry > 0)
+            sum = String.valueOf(carry) + sum;
+        return sum;
+    }
+
+    // You are given a string s, return the number of segments in the string.
+
+    // A segment is defined to be a contiguous sequence of non-space characters.
+
+    // Example 1:
+
+    // Input: s = "Hello, my name is John"
+    // Output: 5
+    // Explanation: The five segments are ["Hello,", "my", "name", "is", "John"]
+
+    // Example 2:
+
+    // Input: s = "Hello"
+    // Output: 1
+
+    // Example 3:
+
+    // Input: s = "love live! mu'sic forever"
+    // Output: 4
+
+    // Example 4:
+
+    // Input: s = ""
+    // Output: 0
+
+    // 100% faster
+    // accepted solution
+    public int countSegments(String s) {
+        StringTokenizer st = new StringTokenizer(s);
+        return st.countTokens();
+    }
+
     public static void main(String[] args) {
-        StringProblems firstUniqueChar = new StringProblems();
-        System.out.println(firstUniqueChar.isSubsequence("bb", "ahbgdc"));
+        StringProblems stringProblems = new StringProblems();
+        System.out.println(stringProblems.addStrings("0", "10"));
     }
 }
