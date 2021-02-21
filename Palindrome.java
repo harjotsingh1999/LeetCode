@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Palindrome {
 
     // faster than 5%
@@ -111,8 +113,61 @@ public class Palindrome {
                 || ch == 'O' || ch == 'U';
     }
 
+    // Given a string s which consists of lowercase or uppercase letters, return the
+    // length of the longest palindrome that can be built with those letters.
+
+    // Letters are case sensitive, for example, "Aa" is not considered a palindrome
+    // here.
+
+    // Example 1:
+
+    // Input: s = "abccccdd"
+    // Output: 7
+    // Explanation:
+    // One longest palindrome that can be built is "dccaccd", whose length is 7.
+
+    // Example 2:
+
+    // Input: s = "a"
+    // Output: 1
+
+    // Example 3:
+
+    // Input: s = "bb"
+    // Output: 2
+
+    public int longestPalindrome(String s) {
+        int[] occurrancesLC = new int[26];
+        int[] occurrancesUC = new int[26];
+        for (char ch : s.toCharArray()) {
+            if (Character.isUpperCase(ch)) {
+                occurrancesUC[(int) ch - (int) 'A'] += 1;
+            } else {
+                occurrancesLC[(int) ch - (int) 'a'] += 1;
+            }
+        }
+
+        int pairs = 0;
+        int singles = 0;
+
+        // i/2 for counting pairs
+        // i%2 for counting single occurances
+        for (int i : occurrancesLC) {
+            pairs += i / 2;
+            singles += i % 2;
+        }
+        for (int i : occurrancesUC) {
+            pairs += i / 2;
+            singles += i % 2;
+        }
+        // if there are more than 0 singles
+        // one of them can be used as center of palindrome
+
+        return pairs * 2 + (singles > 0 ? 1 : 0);
+    }
+
     public static void main(String[] args) {
         Palindrome palindrome = new Palindrome();
-        System.out.println(palindrome.reverseVowels("aA"));
+        System.out.println(palindrome.longestPalindrome("bb"));
     }
 }
