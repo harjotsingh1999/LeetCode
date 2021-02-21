@@ -463,6 +463,72 @@ public class TreeNode {
         }
     }
 
+    // Find the sum of all left leaves in a given binary tree.
+
+    // Example:
+
+    // -----3
+    // ----/ \
+    // ---9--20
+    // ----- / \
+    // ---15---7
+
+    // There are two left leaves in the binary tree, with values 9 and 15
+    // respectively. Return 24.
+
+    public int sumOfLeftLeaves(TreeNode root) {
+
+        // Queue approach
+        if (root == null)
+            return 0;
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        queue.offer(root);
+        int sum = 0;
+        while (!queue.isEmpty()) {
+            TreeNode curNode = queue.poll();
+
+            // if the leaf node of this node is a leaf node
+            // then sum it
+            // and add the right node to the queue if present
+            if (curNode.left != null && curNode.left.left == null && curNode.left.right == null) {
+                System.out.println("TreeNode.sumOfLeftLeaves() adding " + curNode.left.val);
+                sum += curNode.left.val;
+                if (curNode.right != null)
+                    queue.offer(curNode.right);
+            } else {
+                // if not a leaf node
+                // then add the left and right nodes to the queue, if present
+                if (curNode.left != null)
+                    queue.offer(curNode.left);
+                if (curNode.right != null)
+                    queue.offer(curNode.right);
+            }
+        }
+        return sum;
+
+    }
+
+    public int sumOfLeftLeavesRecursive(TreeNode root) {
+        if (root == null)
+            return 0;
+        int[] sumA = new int[1];
+        sumOfLeftLeavesUtil(root, false, sumA);
+        return sumA[0];
+    }
+
+    public void sumOfLeftLeavesUtil(TreeNode root, boolean isLeftNode, int[] sum) {
+        if (root == null)
+            return;
+        if (isLeftNode && root.left == null && root.right == null) {
+            sum[0] += root.val;
+            sumOfLeftLeavesUtil(root.right, false, sum);
+        } else {
+            sumOfLeftLeavesUtil(root.left, true, sum);
+            sumOfLeftLeavesUtil(root.right, false, sum);
+        }
+
+    }
+
     public static void main(String[] args) {
         TreeNode root = new TreeNode(1);
         root.left = new TreeNode(2);
@@ -472,7 +538,8 @@ public class TreeNode {
         root.right.left = new TreeNode(6);
         root.right.right = new TreeNode(7);
         root.printTreeLevelByLevel(root);
-        System.out.println(root.binaryTreePaths(root).toString());
+        System.out.println(root.sumOfLeftLeaves(root));
+        // System.out.println(root.binaryTreePaths(root).toString());
         // TreeNode root2 = new TreeNode(1);
         // root2.left = new TreeNode(2);
         // root2.right = new TreeNode(3);
