@@ -193,12 +193,16 @@ public class Graph {
         graph.addEdge(7, 6);
         graph.addEdge(6, 11);
         graph.addEdge(11, 7);
-        // graph.printGraph();
-        // graph.BFS(1);
-        // System.out.println();
-        // graph.DFS(1);
-        // System.out.println();
-        // graph.countNumberOfConnectedComponents();
+        // graph.addEdge(8, 1);
+        // graph.addEdge(10, 13);
+        // graph.addEdge(7, 12);
+        // graph.addEdge(17, 12);
+        graph.printGraph();
+        graph.BFS(1);
+        System.out.println();
+        graph.DFS(1);
+        System.out.println();
+        graph.countNumberOfConnectedComponents();
         graph.printShortestPath(12, 4);
     }
 }
