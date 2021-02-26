@@ -8,28 +8,28 @@ import java.util.Queue;
 public class Graph {
 
     int nVertices;
-    List<List<Integer>> adjencyMatrix;
+    List<List<Integer>> adjencyList;
 
     Graph(int n) {
         nVertices = n;
-        adjencyMatrix = new ArrayList<List<Integer>>(nVertices);
+        adjencyList = new ArrayList<List<Integer>>(nVertices);
         for (int i = 0; i < nVertices; i++) {
-            adjencyMatrix.add(new ArrayList<Integer>());
+            adjencyList.add(new ArrayList<Integer>());
         }
     }
 
     // adjency matrix is a list containing lists of all connected nodes of all nodes
     // of the graph
     public void addEdge(int u, int v) {
-        adjencyMatrix.get(u).add(v);
-        adjencyMatrix.get(v).add(u);
+        adjencyList.get(u).add(v);
+        adjencyList.get(v).add(u);
     }
 
     public void printGraph() {
-        for (int i = 0; i < adjencyMatrix.size(); i++) {
+        for (int i = 0; i < adjencyList.size(); i++) {
             System.out.println("Adjency List of vertex " + i);
-            for (int j = 0; j < adjencyMatrix.get(i).size(); j++) {
-                System.out.print("-> " + adjencyMatrix.get(i).get(j));
+            for (int j = 0; j < adjencyList.get(i).size(); j++) {
+                System.out.print("-> " + adjencyList.get(i).get(j));
             }
             System.out.println();
         }
@@ -50,8 +50,8 @@ public class Graph {
         while (!queue.isEmpty()) {
             int current = queue.poll();
             System.out.print(current + " ");
-            for (int i = 0; i < adjencyMatrix.get(current).size(); i++) {
-                int vertex = adjencyMatrix.get(current).get(i);
+            for (int i = 0; i < adjencyList.get(current).size(); i++) {
+                int vertex = adjencyList.get(current).get(i);
                 if (visited[vertex] == false) {
                     visited[vertex] = true;
                     queue.add(vertex);
@@ -75,7 +75,7 @@ public class Graph {
 
         // then for all its adjascent vertices
         // perform the same action if they are not already visited
-        for (int v : adjencyMatrix.get(vertex)) {
+        for (int v : adjencyList.get(vertex)) {
             if (!visited[v])
                 DFSUtil(v, visited);
         }
@@ -107,7 +107,7 @@ public class Graph {
 
         // then for all its adjascent vertices
         // perform the same action if they are not already visited
-        for (int v : adjencyMatrix.get(vertex)) {
+        for (int v : adjencyList.get(vertex)) {
             if (!visited[v])
                 DFSUtilForConnectedComponents(v, visited, count, connectedWith);
         }
@@ -116,7 +116,7 @@ public class Graph {
     // 0 <= start, end < nVertices
     public void printShortestPath(int start, int end) {
         int[] parentOfNodes = BFSForPath(start);
-        // the abpve array contains the parent vertex of each element
+        // the above array contains the parent vertex of each element
         // means parentOfNodes[i] will be the parent of i
         // from where it was reached
         reconstructPath(start, end, parentOfNodes);
@@ -147,6 +147,8 @@ public class Graph {
     }
 
     public int[] BFSForPath(int start) {
+
+        // finding the parent of each node via BFS
         boolean[] visited = new boolean[nVertices];
         for (int i = 0; i < visited.length; i++) {
             visited[i] = false;
@@ -159,8 +161,8 @@ public class Graph {
         while (!queue.isEmpty()) {
             int current = queue.poll();
             System.out.print(current + " ");
-            for (int i = 0; i < adjencyMatrix.get(current).size(); i++) {
-                int vertex = adjencyMatrix.get(current).get(i);
+            for (int i = 0; i < adjencyList.get(current).size(); i++) {
+                int vertex = adjencyList.get(current).get(i);
                 if (visited[vertex] == false) {
                     visited[vertex] = true;
                     queue.add(vertex);
