@@ -1,5 +1,7 @@
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -18,37 +20,55 @@ public class WeightedGraph {
 
     public void addEdge(int u, int v, int edgeWt) {
         adjencyList.get(u).add(new Pair(v, edgeWt));
-        adjencyList.get(v).add(new Pair(u, edgeWt));
+        // since this is a directed graph
+        // we cannot move reverse
+        // adjencyList.get(v).add(new Pair(u, edgeWt));
     }
 
     // only for positive edge weights
     public void Dijkstra(WeightedGraph graph, int nNodes, int startNode) {
         boolean[] visited = new boolean[nNodes];
-        int[] distances = new int[nNodes];
-        Arrays.fill(distances, Integer.MAX_VALUE);
+        Integer[] distances = new Integer[nNodes];
+
+        // to store which node was seen before the current node
+        // this is to generate the path of the shortest distance
+        int[] prevNode = new int[nNodes];
         PriorityQueue<Pair> pq = new PriorityQueue<>();
-        pq.add(new Pair(0, 0));
+        pq.add(new Pair(startNode, 0));
         distances[startNode] = 0;
         while (pq.size() != 0) {
-            System.out.println("WeightedGraph.Dijkstra() pqueue= " + pq.toString());
+            System.out.println("pqueue= " + pq.toString());
+
+            // getting the next most promising node
+            // i.e. node at minimum distance/ edge wt.
             Pair current = pq.poll();
             visited[current.nodeTo] = true;
+            System.out.println("current node= " + current.toString());
+            System.out.println("current node's edges= " + adjencyList.get(current.nodeTo));
 
-            System.out.println("WeightedGraph.Dijkstra() current node= " + current.toString());
+            // skip the nodes for which we have already found a better path routing through
+            // other nodes
+            if (current.edgeWt > distances[current.nodeTo])
+                continue;
             for (Pair pair : adjencyList.get(current.nodeTo)) {
+                System.out.println("current edge= " + pair + " visited= " + visited[pair.nodeTo]);
                 if (visited[pair.nodeTo])
                     continue;
 
                 // relaxation step
-                int newDist = pair.edgeWt
-                        + ((distances[current.nodeTo] == Integer.MAX_VALUE) ? 0 : distances[current.nodeTo]);
-                if (newDist < distances[pair.nodeTo]) {
+                int newDist = pair.edgeWt + distances[current.nodeTo];
+                System.out.println("current distance= " + distances[pair.nodeTo] + " new distance= " + newDist);
+                if (distances[pair.nodeTo] == null) {
                     distances[pair.nodeTo] = newDist;
+                    prevNode[pair.nodeTo] = current.nodeTo;
+                    pq.offer(new Pair(pair.nodeTo, newDist));
+                } else if (newDist < distances[pair.nodeTo]) {
+                    distances[pair.nodeTo] = newDist;
+                    prevNode[pair.nodeTo] = current.nodeTo;
                     pq.offer(new Pair(pair.nodeTo, newDist));
                 }
             }
-
-            System.out.println("WeightedGraph.Dijkstra() distances array= " + Arrays.toString(distances));
+            // System.out.println("distances array= " + Arrays.toString(distances));
             // try {
             // Thread.sleep(5000);
             // } catch (InterruptedException e) {
@@ -56,25 +76,55 @@ public class WeightedGraph {
             // }
         }
         System.out.println("min distances from " + startNode + " to each node= " + Arrays.toString(distances));
+        System.out.println("min dstance parents= " + Arrays.toString(prevNode));
+        printShortestPath(1, prevNode);
+    }
+
+    public void printShortestPath(int endNode, int[] parentNodes) {
+        int current = endNode;
+        ArrayList<Integer> parents = new ArrayList<>();
+        while (current != 0) {
+            parents.add(current);
+            current = parentNodes[current];
+        }
+        parents.add(current);
+        Collections.reverse(parents);
+        System.out.println(parents);
     }
 
     public void shortestPathUsingTopSort(WeightedGraph graph, int nNodes, int startNode) {
         int[] topOrdering = new TopologicalSort().topSortWeightedGraph(graph);
         Integer[] distances = new Integer[nNodes];
         distances[startNode] = 0;
+
+        // traverse the nodes in topological order
         for (int i = 0; i < nNodes; i++) {
-            int nodeIndex = topOrdering[i];
-            if (distances[nodeIndex] != null) {
-                List<Pair> edges = graph.adjencyList.get(nodeIndex);
+            int currentNode = topOrdering[i];
+            System.out.println("i= " + i + " and current node= " + currentNode);
+            if (distances[currentNode] != null) {
+
+                // get all edges from the node
+                List<Pair> edges = graph.adjencyList.get(currentNode);
+                System.out.println("edges of node " + currentNode + " = " + edges);
                 if (edges != null) {
                     for (Pair pair : edges) {
-                        int newDist = distances[nodeIndex] + pair.edgeWt;
+                        // relaxation step
+                        System.out.println("current edge of " + currentNode + " is " + pair + " distances[currentNode] "
+                                + distances[currentNode]);
+                        int newDist = distances[currentNode] + pair.edgeWt;
+                        System.out.println("new distance= " + newDist);
                         if (distances[pair.nodeTo] == null)
-                            distances[pair.edgeWt] = newDist;
+                            distances[pair.nodeTo] = newDist;
                         else
                             distances[pair.nodeTo] = Math.min(newDist, distances[pair.nodeTo]);
                     }
                 }
+            }
+            System.out.println("current distances array= " + Arrays.toString(distances));
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
         System.out.println("Min distances from start= " + startNode + " to each node= " + Arrays.toString(distances));
@@ -89,7 +139,7 @@ public class WeightedGraph {
         weightedGraph.addEdge(1, 3, 1);
         weightedGraph.addEdge(2, 3, 5);
         weightedGraph.addEdge(3, 4, 3);
-        weightedGraph.shortestPathUsingTopSort(weightedGraph, nVertices, 0);
+        weightedGraph.Dijkstra(weightedGraph, nVertices, 0);
     }
 }
 
@@ -121,6 +171,6 @@ class Pair implements Comparator<Pair>, Comparable<Pair> {
 
     @Override
     public String toString() {
-        return String.valueOf(nodeTo) + " with weight/distance= " + String.valueOf(edgeWt);
+        return "to " + String.valueOf(nodeTo) + " with weight/distance= " + String.valueOf(edgeWt);
     }
 }

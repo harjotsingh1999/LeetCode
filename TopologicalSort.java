@@ -65,6 +65,8 @@ public class TopologicalSort {
         int i = nVertices - 1;
 
         for (int element = 0; element < nVertices; element++) {
+            System.out.println("TopologicalSort.topSortWeightedGraph() current element= " + element
+                    + " which is visited= " + visited[element]);
             if (visited[element] == false) {
                 List<Integer> visitedNodes = new ArrayList<>();
                 DFSForWeightedGraph(element, visited, visitedNodes, graph);
@@ -83,12 +85,15 @@ public class TopologicalSort {
     private void DFSForWeightedGraph(int element, boolean[] visited, List<Integer> visitedNodes, WeightedGraph graph) {
         visited[element] = true;
         for (Pair pair : graph.adjencyList.get(element)) {
+            System.out.println("TopologicalSort.DFSForWeightedGraph() going to " + pair.nodeTo + " from " + element
+                    + " visited= " + visited[pair.nodeTo]);
             if (visited[pair.nodeTo] == false) {
                 DFSForWeightedGraph(pair.nodeTo, visited, visitedNodes, graph);
             }
         }
         // we add the current element at last after the DFS is complete
         // i.e., we backtrack when no other way is possible now
+        System.out.println("TopologicalSort.DFSForWeightedGraph() adding " + element + " to the list");
         visitedNodes.add(element);
     }
 
