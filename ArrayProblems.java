@@ -83,9 +83,46 @@ public class ArrayProblems {
         return list;
     }
 
+    // Given a binary array, find the maximum number of consecutive 1s in this
+    // array.
+
+    // Example 1:
+
+    // Input: [1,1,0,1,1,1]
+    // Output: 3
+    // Explanation: The first two digits or the last three digits are consecutive
+    // 1s.
+    // The maximum number of consecutive 1s is 3.
+
+    // Note:
+
+    // The input array will only contain 0 and 1.
+    // The length of input array is a positive integer and will not exceed 10,000
+
+    public int findMaxConsecutiveOnes(int[] nums) {
+        int max = 0;
+        int count = 0;
+        for (int i = 0; i < nums.length; i++) {
+            System.out.println("i= " + i + " and ele= " + nums[i] + " count= " + count + " max= " + max);
+            if (nums[i] == 1) {
+                count = 1;
+                while (i < nums.length - 1 && nums[i + 1] == 1) {
+                    System.out.println("while i= " + i + " and ele= " + nums[i] + " count= " + count + " max= " + max);
+                    i += 1;
+                    count += 1;
+                }
+                max = Math.max(max, count);
+                System.out.println("while end i= " + i + " and ele= " + nums[i] + " count= " + count + " max= " + max);
+            }
+            System.out.println("out of if i= " + i + " and ele= " + nums[i] + " count= " + count + " max= " + max);
+            count = 0;
+        }
+        return max;
+    }
+
     public static void main(String[] args) {
         ArrayProblems arrayProblems = new ArrayProblems();
-        int[] arr = { 4, 3, 2, 7, 8, 2, 3, 1 };
-        System.out.println(arrayProblems.findDisappearedNumbers2(arr));
+        int[] arr = { 0, 0, 0, 0, 1, 1 };
+        System.out.println(arrayProblems.findMaxConsecutiveOnes(arr));
     }
 }
