@@ -242,8 +242,69 @@ public class StringProblems {
         return st.countTokens();
     }
 
+    // Given a string s, check if it can be constructed by taking a substring of it
+    // and appending multiple copies of the substring together.
+
+    // Example 1:
+
+    // Input: s = "abab"
+    // Output: true
+    // Explanation: It is the substring "ab" twice.
+
+    // Example 2:
+
+    // Input: s = "aba"
+    // Output: false
+
+    // Example 3:
+
+    // Input: s = "abcabcabcabc"
+    // Output: true
+    // Explanation: It is the substring "abc" four times or the substring "abcabc"
+    // twice.
+
+    public boolean repeatedSubstringPattern(String s) {
+
+        // to get the substrings of all lengths upto s.length()/2
+        for (int i = 1; i < s.length(); i++) {
+
+            // if s.length is not divisible by i
+            // means the substring cannot be used repeatedly
+            if (s.length() % i != 0)
+                continue;
+            boolean found = true;
+
+            // getting the substring
+            String substr = s.substring(0, i);
+            System.out.println("checking for substring " + substr);
+
+            // getting all other substring of the same length
+            for (int j = substr.length(); j < s.length(); j += substr.length()) {
+                String nsubstr = s.substring(j, j + substr.length());
+                System.out.println("matching with " + nsubstr);
+                // matching the first substring with all others
+                // if first mismatch occurs
+                // move on with the next length of substring
+                if (!substr.equals(nsubstr)) {
+                    found = false;
+                    break;
+                }
+            }
+            // if all substrigs matched
+            // return true
+            // else continue with substring of a greater length
+            if (found)
+                return true;
+            continue;
+        }
+
+        // if nothing was returned until now
+        // means not found
+        return false;
+    }
+
     public static void main(String[] args) {
         StringProblems stringProblems = new StringProblems();
-        System.out.println(stringProblems.addStrings("0", "10"));
+        System.out.println(stringProblems.repeatedSubstringPattern("abab"));
     }
 }
