@@ -1,4 +1,3 @@
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -52,6 +51,10 @@ public class WeightedGraph {
                 continue;
             for (Pair pair : adjencyList.get(current.nodeTo)) {
                 System.out.println("current edge= " + pair + " visited= " + visited[pair.nodeTo]);
+
+                // helps detect if an edge points towards itself or an ancestor
+                // basically a cycle
+                // hence we skip the node
                 if (visited[pair.nodeTo])
                     continue;
 
