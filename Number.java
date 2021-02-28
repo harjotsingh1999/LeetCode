@@ -86,8 +86,82 @@ public class Number {
         return true;
     }
 
+    // The Hamming distance between two integers is the number of positions at which
+    // the corresponding bits are different.
+
+    // Given two integers x and y, calculate the Hamming distance.
+
+    // Note:
+    // 0 ≤ x, y < 231.
+
+    // Example:
+
+    // Input: x = 1, y = 4
+
+    // Output: 2
+
+    // Explanation:
+    // 1 (0 0 0 1)
+    // 4 (0 1 0 0)
+    // -----↑-- ↑
+
+    // The above arrows point to positions where the corresponding bits are
+    // different.
+
+    // 5% faster 20% less space
+    public int hammingDistance(int x, int y) {
+        System.out.println(Integer.toBinaryString(x));
+        System.out.println(Integer.toBinaryString(y));
+        String s1 = Integer.toBinaryString(x);
+        String s2 = Integer.toBinaryString(y);
+        if (s1.length() < s2.length()) {
+            while (s1.length() < s2.length()) {
+                s1 = "0" + s1;
+            }
+        }
+        if (s2.length() < s1.length()) {
+            while (s2.length() < s1.length()) {
+                s2 = "0" + s2;
+            }
+        }
+        System.out.println(s1 + " " + s2);
+        int c = 0;
+        for (int i = 0; i < s1.length(); i++) {
+            if (s1.charAt(i) != s2.charAt(i))
+                c += 1;
+        }
+        return c;
+    }
+
+    // using bit manipulation
+    // note that xor gives 1 for odd number of 1s
+    // or gives 1 when bits are different
+    // hence, counting the number of set bits
+    // in x^y will be the number of different bits in x and y
+    public int hammingDistance2(int x, int y) {
+        System.out.println(Integer.toBinaryString(x));
+        System.out.println(Integer.toBinaryString(y));
+        System.out.println(Integer.toBinaryString(x ^ y));
+        return countSetBits(x ^ y);
+    }
+
+    public int countSetBits(int n) {
+        int count = 0;
+        while (n > 0) {
+            System.out.println(n + " " + Integer.toBinaryString(n));
+
+            // check if the least significant bit is set or not
+            count += (n & 1);
+            // right shift the bits of the number by 1 unit
+            // 100 becomes 010 then 001 etc.
+            n >>= 1;
+            System.out.println(n + " " + Integer.toBinaryString(n));
+        }
+        return count;
+    }
+
     public static void main(String[] args) {
         Number number = new Number();
-        System.out.println(number.isUgly(6));
+        System.out.println(number.hammingDistance2(1, 4));
     }
 }
