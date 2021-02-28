@@ -160,8 +160,33 @@ public class Number {
         return count;
     }
 
+    // Number : Given Number
+    // Value : A number with all bits set in given number.
+    // Flipped number = Value – Number.
+
+    // Example :
+    // Number = 23,
+    // Binary form: 10111;
+    // After flipping digits number will be: 01000;
+    // Value: 11111 = 31;
+    public int findComplement(int num) {
+
+        int n1 = num;
+        int n = 0;
+        int c = 0;
+
+        // keep dividing the number by 2
+        while (n1 != 0) {
+            n += (int) Math.pow(2, c);
+            n1 >>= 1;
+            c += 1;
+        }
+        System.out.println(n);
+        return n - num;
+    }
+
     public static void main(String[] args) {
         Number number = new Number();
-        System.out.println(number.hammingDistance2(1, 4));
+        System.out.println(number.findComplement(5));
     }
 }
