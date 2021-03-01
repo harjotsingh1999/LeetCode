@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -366,8 +368,95 @@ public class StringProblems {
         return out;
     }
 
+    // Given an array of strings words, return the words that can be typed using
+    // letters of the alphabet on only one row of American keyboard like the image
+    // below.
+
+    // In the American keyboard:
+
+    // the first row consists of the characters "qwertyuiop",
+    // the second row consists of the characters "asdfghjkl", and
+    // the third row consists of the characters "zxcvbnm".
+
+    // Example 1:
+
+    // Input: words = ["Hello","Alaska","Dad","Peace"]
+    // Output: ["Alaska","Dad"]
+
+    // Example 2:
+
+    // Input: words = ["omk"]
+    // Output: []
+
+    // Example 3:
+
+    // Input: words = ["adsdf","sfd"]
+    // Output: ["adsdf","sfd"]
+
+    // Constraints:
+
+    // 1 <= words.length <= 20
+    // 1 <= words[i].length <= 100
+    // words[i] consists of English letters (both lowercase and uppercase).
+
+    // 100% fast 92% less space
+    public String[] findWords(String[] words) {
+        List<String> out = new ArrayList<String>();
+        HashSet<Character> set1 = new HashSet<>();
+        for (char ch : "qwertyuiop".toCharArray()) {
+            set1.add(ch);
+        }
+        HashSet<Character> set2 = new HashSet<>();
+        for (char ch : "asdfghjkl".toCharArray()) {
+            set2.add(ch);
+        }
+        HashSet<Character> set3 = new HashSet<>();
+        for (char ch : "zxcvbnm".toCharArray()) {
+            set3.add(ch);
+        }
+
+        for (int i = 0; i < words.length; i++) {
+            String word1 = words[i];
+            String word = word1.toLowerCase();
+            boolean valid = true;
+            char ch1 = word.charAt(0);
+            if (set1.contains(ch1)) {
+                for (int j = 1; j < word.length(); j++) {
+                    if (!set1.contains(word.charAt(j))) {
+                        valid = false;
+                        break;
+                    }
+                }
+            } else if (set2.contains(ch1)) {
+                for (int j = 1; j < word.length(); j++) {
+                    if (!set2.contains(word.charAt(j))) {
+                        valid = false;
+                        break;
+                    }
+                }
+            } else {
+                for (int j = 1; j < word.length(); j++) {
+                    if (!set3.contains(word.charAt(j))) {
+                        valid = false;
+                        break;
+                    }
+                }
+            }
+            if (valid)
+                out.add(word1);
+        }
+        String[] outp = new String[out.size()];
+        int i = 0;
+        for (String s : out) {
+            outp[i] = s;
+            i += 1;
+        }
+        return outp;
+    }
+
     public static void main(String[] args) {
         StringProblems stringProblems = new StringProblems();
-        System.out.println(stringProblems.licenseKeyFormatting("5F3Z-2e-9-w", 4));
+        String[] words = { "adsdf", "sfd" };
+        System.out.println(Arrays.toString(stringProblems.findWords(words)));
     }
 }
