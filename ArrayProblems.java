@@ -122,7 +122,7 @@ public class ArrayProblems {
 
     public static void main(String[] args) {
         ArrayProblems arrayProblems = new ArrayProblems();
-        int[] arr = { 0, 0, 0, 0, 1, 1 };
-        System.out.println(arrayProblems.findMaxConsecutiveOnes(arr));
+        int[] arr = { 1, 1, 1 };
+        System.out.println(arrayProblems.check(arr));
     }
 }

@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -526,19 +528,54 @@ public class TreeNode {
             sumOfLeftLeavesUtil(root.left, true, sum);
             sumOfLeftLeavesUtil(root.right, false, sum);
         }
+    }
 
+    // Given a binary search tree (BST) with duplicates, find all the mode(s) (the
+    // most frequently occurred element) in the given BST.
+    public int[] findMode(TreeNode root) {
+        if (root == null)
+            return new int[0];
+        ArrayList<Integer> list = new ArrayList<>();
+        HashMap<Integer, Integer> map = new HashMap<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (queue.size() != 0) {
+            TreeNode current = queue.poll();
+            map.put(current.val, map.getOrDefault(current.val, 0) + 1);
+            if (current.left != null)
+                queue.offer(current.left);
+            if (current.right != null)
+                queue.offer(current.right);
+        }
+        System.out.println(map);
+        int maxCount = -1;
+        for (Integer key : map.keySet()) {
+            if (map.get(key) > maxCount)
+                maxCount = map.get(key);
+        }
+        for (Integer key : map.keySet()) {
+            if (map.get(key) == maxCount)
+                list.add(key);
+        }
+        int[] arr = new int[list.size()];
+        int ind = 0;
+        for (int i : list) {
+            arr[ind] = i;
+            ind += 1;
+        }
+        return arr;
     }
 
     public static void main(String[] args) {
         TreeNode root = new TreeNode(1);
         root.left = new TreeNode(2);
         root.right = new TreeNode(3);
-        root.left.left = new TreeNode(4);
-        root.left.right = new TreeNode(5);
-        root.right.left = new TreeNode(6);
-        root.right.right = new TreeNode(7);
+        root.left.left = new TreeNode(3);
+        root.left.right = new TreeNode(2);
+        root.right.left = new TreeNode(2);
+        root.right.right = new TreeNode(3);
         root.printTreeLevelByLevel(root);
-        System.out.println(root.sumOfLeftLeaves(root));
+        System.out.println(Arrays.toString(root.findMode(root)));
         // System.out.println(root.binaryTreePaths(root).toString());
         // TreeNode root2 = new TreeNode(1);
         // root2.left = new TreeNode(2);
