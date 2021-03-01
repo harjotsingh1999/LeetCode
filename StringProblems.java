@@ -454,9 +454,69 @@ public class StringProblems {
         return outp;
     }
 
+    // You are given a string s consisting only of the characters '0' and '1'. In
+    // one operation, you can change any '0' to '1' or vice versa.
+
+    // The string is called alternating if no two adjacent characters are equal. For
+    // example, the string "010" is alternating, while the string "0100" is not.
+
+    // Return the minimum number of operations needed to make s alternating.
+
+    // Example 1:
+
+    // Input: s = "0100"
+    // Output: 1
+    // Explanation: If you change the last character to '1', s will be "0101", which
+    // is alternating.
+
+    // Example 2:
+
+    // Input: s = "10"
+    // Output: 0
+    // Explanation: s is already alternating.
+
+    // Example 3:
+
+    // Input: s = "1111"
+    // Output: 2
+    // Explanation: You need two operations to reach "0101" or "1010".
+
+    // Constraints:
+
+    // 1 <= s.length <= 104
+    // s[i] is either '0' or '1'.
+
+    public int minOperations(String s) {
+        if (s.length() == 0 || s.length() == 1)
+            return 0;
+        StringBuilder sb1 = new StringBuilder(), sb2 = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            if (i % 2 == 0) {
+                sb1.append("0");
+                sb2.append("1");
+            } else {
+                sb1.append("1");
+                sb2.append("0");
+            }
+        }
+        // String o1 = sb1.toString();
+        // String o2 = sb2.toString();
+        int c1 = 0, c2 = 0;
+        System.out.println(sb1.toString());
+        System.out.println(sb2.toString());
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) != sb1.charAt(i))
+                c1 += 1;
+            if (s.charAt(i) != sb2.charAt(i))
+                c2 += 1;
+        }
+        return Math.min(c1, c2);
+    }
+
     public static void main(String[] args) {
         StringProblems stringProblems = new StringProblems();
-        String[] words = { "adsdf", "sfd" };
-        System.out.println(Arrays.toString(stringProblems.findWords(words)));
+        // String[] words = { "adsdf", "sfd" };
+        // System.out.println(Arrays.toString(stringProblems.findWords(words)));
+        System.out.println(stringProblems.minOperations("1111"));
     }
 }
