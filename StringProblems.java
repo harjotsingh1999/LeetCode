@@ -1,6 +1,8 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 public class StringProblems {
@@ -512,10 +514,138 @@ public class StringProblems {
         return Math.min(c1, c2);
     }
 
+    // Given a word, you need to judge whether the usage of capitals in it is right
+    // or not.
+
+    // We define the usage of capitals in a word to be right when one of the
+    // following cases holds:
+
+    // All letters in this word are capitals, like "USA".
+    // All letters in this word are not capitals, like "leetcode".
+    // Only the first letter in this word is capital, like "Google".
+
+    // Otherwise, we define that this word doesn't use capitals in a right way.
+
+    // Example 1:
+
+    // Input: "USA"
+    // Output: True
+
+    // Example 2:
+
+    // Input: "FlaG"
+    // Output: False
+
+    public boolean detectCapitalUse(String word) {
+        if (word.length() <= 1)
+            return true;
+        boolean firstCap = Character.isUpperCase(word.charAt(0));
+        boolean secondCap = Character.isUpperCase(word.charAt(1));
+        if (!firstCap && secondCap)
+            return false;
+        for (int i = 2; i < word.length(); i++) {
+            if (!firstCap && Character.isUpperCase(word.charAt(i)))
+                return false;
+            else if (firstCap && secondCap && Character.isLowerCase(word.charAt(i)))
+                return false;
+            else if (firstCap && !secondCap && Character.isUpperCase(word.charAt(i)))
+                return false;
+        }
+        return true;
+    }
+
+    // Given a string s, find the length of the longest substring without repeating
+    // characters.
+
+    // Example 1:
+
+    // Input: s = "abcabcbb"
+    // Output: 3
+    // Explanation: The answer is "abc", with the length of 3.
+
+    // Example 2:
+
+    // Input: s = "bbbbb"
+    // Output: 1
+    // Explanation: The answer is "b", with the length of 1.
+
+    // Example 3:
+
+    // Input: s = "pwwkew"
+    // Output: 3
+    // Explanation: The answer is "wke", with the length of 3.
+    // Notice that the answer must be a substring, "pwke" is a subsequence and not a
+    // substring.
+
+    // Example 4:
+
+    // Input: s = ""
+    // Output: 0
+
+    // Constraints:
+
+    // 0 <= s.length <= 5 * 104
+    // s consists of English letters, digits, symbols and spaces.
+
+    public int lengthOfLongestSubstring(String s) {
+        int ans = 0;
+        HashSet<Character> set = new HashSet<>(); // current index of character
+        int i = 0, j = 0;
+        while (j < s.length()) {
+            if (!set.contains(s.charAt(j))) {
+                // if current character not already seen
+                set.add(s.charAt(j));
+
+                // increase the window size
+                j += 1;
+
+                // update the max length
+                // set.size indicates the number of unique characters
+                // hence the length of the substring
+                ans = Math.max(set.size(), ans);
+            } else {
+                // if the current character already in the set
+                // we need to update the start pointer to after the first occurance of this
+                // character
+                // essentially removing all characters from the set, that are in the string
+                // before the first occurance of this character
+                set.remove(s.charAt(i));
+                i += 1;
+            }
+        }
+        return ans;
+    }
+
+    // Approach 3: Sliding Window Optimized
+
+    // The above solution requires at most 2n steps. In fact, it could be optimized
+    // to require only n steps. Instead of using a set to tell if a character exists
+    // or not, we could define a mapping of the characters to its index. Then we can
+    // skip the characters immediately when we found a repeated character.
+
+    // The reason is that if s[j]s[j]s[j] have a duplicate in the range [i,j)[i,
+    // j)[i,j) with index j′j'j′, we don't need to increase iii little by little. We
+    // can skip all the elements in the range [i,j′][i, j'][i,j′] and let iii to be
+    // j′+1j' + 1j′+1 directly.
+
+    public int lengthOfLongestSubstring2(String s) {
+        int n = s.length(), ans = 0;
+        Map<Character, Integer> map = new HashMap<>(); // current index of character
+        // try to extend the range [i, j]
+        for (int j = 0, i = 0; j < n; j++) {
+            if (map.containsKey(s.charAt(j))) {
+                i = Math.max(map.get(s.charAt(j)), i);
+            }
+            ans = Math.max(ans, j - i + 1);
+            map.put(s.charAt(j), j + 1);
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         StringProblems stringProblems = new StringProblems();
         // String[] words = { "adsdf", "sfd" };
         // System.out.println(Arrays.toString(stringProblems.findWords(words)));
-        System.out.println(stringProblems.minOperations("1111"));
+        System.out.println(stringProblems.lengthOfLongestSubstring("pwwkew"));
     }
 }

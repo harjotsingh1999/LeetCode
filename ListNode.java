@@ -346,27 +346,55 @@ public class ListNode {
         node.next = node.next.next;
     }
 
+    // You are given two non-empty linked lists representing two non-negative
+    // integers. The digits are stored in reverse order, and each of their nodes
+    // contains a single digit. Add the two numbers and return the sum as a linked
+    // list.
+
+    // You may assume the two numbers do not contain any leading zero, except the
+    // number 0 itself.
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode temp1 = l1, temp2 = l2;
+        ListNode head = null, temp = null;
+        int carry = 0;
+        while (temp1 != null || temp2 != null) {
+
+            int val1 = temp1 != null ? temp1.val : 0;
+            int val2 = temp2 != null ? temp2.val : 0;
+            int s = (val1 + val2 + carry) % 10;
+            carry = (val1 + val2 + carry) / 10;
+            if (head == null) {
+                head = new ListNode(s);
+                temp = head;
+            } else {
+                temp.next = new ListNode(s);
+                temp = temp.next;
+            }
+            if (temp1 != null)
+                temp1 = temp1.next;
+            if (temp2 != null)
+                temp2 = temp2.next;
+        }
+        if (carry != 0) {
+            temp.next = new ListNode(carry);
+            temp = temp.next;
+        }
+        return head;
+    }
+
     public static void main(String[] args) {
 
         ListNode listNode = new ListNode();
         System.out.println("Enter length of first list");
         int l1 = listNode.read.nextInt();
-        // // System.out.println("Enter len of second list");
-        // // int l2 = listNode.read.nextInt();
         ListNode list1 = listNode.createList(l1);
         listNode.printList(list1);
-        // // ListNode list2 = listNode.createList(l2);
-        // // listNode.printList(list2);
-        // ListNode list3 = listNode.deleteDuplicates(list1);5
-        // listNode.printList(list3);
-
-        System.out.println(list1.isPalindrome2(list1));
+        System.out.println("Enter len of second list");
+        int l2 = listNode.read.nextInt();
+        ListNode list2 = listNode.createList(l2);
+        listNode.printList(list2);
+        ListNode sum = listNode.addTwoNumbers(list1, list2);
+        listNode.printList(sum);
         listNode.read.close();
-
-        // ListNode head = new ListNode(1);
-        // head.next = new ListNode(2);
-        // head.next.next = new ListNode(3);
-        // head.next.next.next = head;
-        // System.out.println(head.hasCycle(head));
     }
 }
