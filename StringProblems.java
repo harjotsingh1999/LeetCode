@@ -623,10 +623,10 @@ public class StringProblems {
     // or not, we could define a mapping of the characters to its index. Then we can
     // skip the characters immediately when we found a repeated character.
 
-    // The reason is that if s[j]s[j]s[j] have a duplicate in the range [i,j)[i,
-    // j)[i,j) with index j′j'j′, we don't need to increase iii little by little. We
-    // can skip all the elements in the range [i,j′][i, j'][i,j′] and let iii to be
-    // j′+1j' + 1j′+1 directly.
+    // The reason is that if s[j] have a duplicate in the range [i,j)
+    // with index j′, we don't need to increase i little by little. We
+    // can skip all the elements in the range [i,j′] and let i to be
+    // j′+1 directly.
 
     public int lengthOfLongestSubstring2(String s) {
         int n = s.length(), ans = 0;
