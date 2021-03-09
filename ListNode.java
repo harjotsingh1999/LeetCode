@@ -382,6 +382,62 @@ public class ListNode {
         return head;
     }
 
+    // Given the head of a linked list, remove the nth node from the end of the list
+    // and return its head.
+    // Input: head = [1,2,3,4,5], n = 2
+    // Output: [1,2,3,5]
+
+    // Example 2:
+
+    // Input: head = [1], n = 1
+    // Output: []
+
+    // Example 3:
+
+    // Input: head = [1,2], n = 1
+    // Output: [1]
+
+    // Constraints:
+
+    // The number of nodes in the list is sz.
+    // 1 <= sz <= 30
+    // 0 <= Node.val <= 100
+    // 1 <= n <= sz
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+
+        // nth node from end => len-n+1 th node from front
+        if (head == null)
+            return null;
+        ListNode temp = head, prev = null;
+        int len = 0;
+        while (temp != null) {
+            temp = temp.next;
+            len += 1;
+        }
+        System.out.println("length= " + len);
+
+        // n from the end means first from the beginning
+        if (len == n) {
+            head = head.next;
+            return head;
+        }
+
+        // make prev point to the predecessor of the node to be removed
+        // temp points to the node that is to be removed
+        temp = head;
+        int index = 1;
+        while (index != len - n + 1) {
+            index += 1;
+            prev = temp;
+            temp = temp.next;
+        }
+
+        // final skip one node by pointing the prev node to the next of next node
+        prev.next = temp.next;
+        temp = null;
+        return head;
+    }
+
     public static void main(String[] args) {
 
         ListNode listNode = new ListNode();
@@ -389,12 +445,14 @@ public class ListNode {
         int l1 = listNode.read.nextInt();
         ListNode list1 = listNode.createList(l1);
         listNode.printList(list1);
-        System.out.println("Enter len of second list");
-        int l2 = listNode.read.nextInt();
-        ListNode list2 = listNode.createList(l2);
-        listNode.printList(list2);
-        ListNode sum = listNode.addTwoNumbers(list1, list2);
-        listNode.printList(sum);
+        // System.out.println("Enter len of second list");
+        // int l2 = listNode.read.nextInt();
+        // ListNode list2 = listNode.createList(l2);
+        // listNode.printList(list2);
+        // ListNode sum = listNode.addTwoNumbers(list1, list2);
+        // listNode.printList(sum);
+        list1 = listNode.removeNthFromEnd(list1, 1);
+        listNode.printList(list1);
         listNode.read.close();
     }
 }

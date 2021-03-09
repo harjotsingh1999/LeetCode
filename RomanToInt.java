@@ -110,11 +110,11 @@ public class RomanToInt {
     }
 
     public static void main(String[] args) {
-        // System.out.println("Enter a roman number");
-        // Scanner read = new Scanner(System.in);
-        // String number = read.next();
+        System.out.println("Enter a number");
+        Scanner read = new Scanner(System.in);
+        int number = read.nextInt();
         RomanToInt rToInt = new RomanToInt();
-        System.out.println(rToInt.intToRoman(1994));
-        // read.close();
+        System.out.println(rToInt.intToRoman(number));
+        read.close();
     }
 }

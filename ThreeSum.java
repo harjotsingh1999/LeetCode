@@ -1,7 +1,3 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class ThreeSum {
 
     // Given an array nums of n integers, are there elements a, b, c in nums such
