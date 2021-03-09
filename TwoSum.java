@@ -35,4 +35,7 @@ public class TwoSum {
         out[1] = lastIndex + 1;
         return out;
     }
+
+    // this was where the array was sorted
+    // in the problem where array is not sorted, we use a map
 }

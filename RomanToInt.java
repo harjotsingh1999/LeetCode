@@ -44,12 +44,77 @@ public class RomanToInt {
         return num;
     }
 
+    public String intToRoman(int num) {
+        String out = "";
+        int thou = num / 1000, hund = (num % 1000) / 100, tens = ((num % 1000) % 100) / 10,
+                ones = ((num % 1000) % 100) % 10;
+
+        if (thou > 0) {
+            while (thou > 0) {
+                out += "M";
+                thou -= 1;
+            }
+        }
+        if (hund > 0) {
+            if (hund == 4)
+                out += "CD";
+            else if (hund == 9)
+                out += "CM";
+            else {
+                while (hund > 0) {
+                    if (hund >= 5) {
+                        out += "D";
+                        hund -= 5;
+                    } else {
+                        out += "C";
+                        hund -= 1;
+                    }
+                }
+            }
+        }
+        if (tens > 0) {
+            if (tens == 4)
+                out += "XL";
+            else if (tens == 9)
+                out += "XC";
+            else {
+                while (tens > 0) {
+                    if (tens >= 5) {
+                        out += "L";
+                        tens -= 5;
+                    } else {
+                        out += "X";
+                        tens -= 1;
+                    }
+                }
+            }
+        }
+        if (ones > 0) {
+            if (ones == 4)
+                out += "IV";
+            else if (ones == 9)
+                out += "IX";
+            else {
+                while (ones > 0) {
+                    if (ones >= 5) {
+                        out += "V";
+                        ones -= 5;
+                    } else {
+                        out += "I";
+                        ones -= 1;
+                    }
+                }
+            }
+        }
+        return out;
+    }
+
     public static void main(String[] args) {
-        System.out.println("Enter a roman number");
-        Scanner read = new Scanner(System.in);
-        String number = read.next();
+        // System.out.println("Enter a roman number");
+        // Scanner read = new Scanner(System.in);
+        // String number = read.next();
         RomanToInt rToInt = new RomanToInt();
-        System.out.println("int of " + number + " is " + rToInt.romanToInt(number));
-        read.close();
+        System.out.println(rToInt.intToRoman(1994));
+        // read.close();
     }
 }
