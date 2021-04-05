@@ -438,9 +438,6 @@ public class ListNode {
         return head;
     }
 
-
-    public 
-
     public static void main(String[] args) {
 
         ListNode listNode = new ListNode();
