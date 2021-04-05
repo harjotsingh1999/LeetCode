@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * A topological ordering is an ordering of the nodes in a directed graph where
@@ -97,49 +98,70 @@ public class TopologicalSort {
         visitedNodes.add(element);
     }
 
+    public void topSortUsingStack(Graph graph) {
+        boolean[] visited = new boolean[graph.nVertices];
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < graph.nVertices; i++) {
+            if (!visited[i]) {
+                DFSTopOrderingWithStack(graph, i, visited, stack);
+            }
+        }
+        System.out.println(stack);
+    }
+
+    private void DFSTopOrderingWithStack(Graph graph, int i, boolean[] visited, Stack<Integer> stack) {
+        visited[i] = true;
+        for (int node : graph.adjencyList.get(i)) {
+            if (!visited[node])
+                DFSTopOrderingWithStack(graph, node, visited, stack);
+        }
+        stack.push(i);
+    }
+
     public static void main(String[] args) {
         TopologicalSort topologicalSort = new TopologicalSort();
-        // int nVertices = 18;
-        // Graph graph = new Graph(nVertices);
-        // graph.addEdge(0, 8);
-        // graph.addEdge(0, 13);
-        // graph.addEdge(0, 4);
-        // graph.addEdge(0, 14);
-        // graph.addEdge(8, 4);
-        // graph.addEdge(8, 14);
-        // graph.addEdge(13, 14);
-        // graph.addEdge(1, 5);
-        // graph.addEdge(5, 16);
-        // graph.addEdge(5, 17);
-        // graph.addEdge(3, 9);
-        // graph.addEdge(9, 15);
-        // graph.addEdge(9, 2);
-        // graph.addEdge(15, 2);
-        // graph.addEdge(10, 15);
-        // graph.addEdge(7, 6);
-        // graph.addEdge(6, 11);
-        // graph.addEdge(11, 7);
-        // // graph.addEdge(8, 1);
-        // // graph.addEdge(10, 13);
-        // // graph.addEdge(7, 12);
-        // // graph.addEdge(17, 12);
+        int nVertices = 18;
+        Graph graph = new Graph(nVertices);
+        graph.addEdge(0, 8);
+        graph.addEdge(0, 13);
+        graph.addEdge(0, 4);
+        graph.addEdge(0, 14);
+        graph.addEdge(8, 4);
+        graph.addEdge(8, 14);
+        graph.addEdge(13, 14);
+        graph.addEdge(1, 5);
+        graph.addEdge(5, 16);
+        graph.addEdge(5, 17);
+        graph.addEdge(3, 9);
+        graph.addEdge(9, 15);
+        graph.addEdge(9, 2);
+        graph.addEdge(15, 2);
+        graph.addEdge(10, 15);
+        graph.addEdge(7, 6);
+        graph.addEdge(6, 11);
+        graph.addEdge(11, 7);
+        graph.addEdge(8, 1);
+        graph.addEdge(10, 13);
+        graph.addEdge(7, 12);
+        graph.addEdge(17, 12);
         // graph.printGraph();
         // graph.BFS(1);
         // System.out.println();
-        // graph.DFS(1);
-        // System.out.println();
+        graph.DFS(0);
+        System.out.println();
         // graph.countNumberOfConnectedComponents();
         // graph.printShortestPath(12, 4);
         // topologicalSort.topSort(graph);
+        topologicalSort.topSortUsingStack(graph);
 
-        int nVertices = 5;
-        WeightedGraph weightedGraph = new WeightedGraph(nVertices);
-        weightedGraph.addEdge(0, 1, 4);
-        weightedGraph.addEdge(0, 2, 1);
-        weightedGraph.addEdge(2, 1, 2);
-        weightedGraph.addEdge(1, 3, 1);
-        weightedGraph.addEdge(2, 3, 5);
-        weightedGraph.addEdge(3, 4, 3);
-        topologicalSort.topSortWeightedGraph(weightedGraph);
+        // int nVertices = 5;
+        // WeightedGraph weightedGraph = new WeightedGraph(nVertices);
+        // weightedGraph.addEdge(0, 1, 4);
+        // weightedGraph.addEdge(0, 2, 1);
+        // weightedGraph.addEdge(2, 1, 2);
+        // weightedGraph.addEdge(1, 3, 1);
+        // weightedGraph.addEdge(2, 3, 5);
+        // weightedGraph.addEdge(3, 4, 3);
+        // topologicalSort.topSortWeightedGraph(weightedGraph);
     }
 }

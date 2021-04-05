@@ -201,27 +201,62 @@ public class Graph {
         return parentOfNodes;
     }
 
+    // COLORS
+    // -1 -> unvisited
+    // 0 -> visited and in queue
+    // 2 -> removed from queue
+    // if at any point you find the neighbour of any node to be 0, meaning neighbour
+    // is already in the queue, means cycle is present
+    // because there was an alternate path from where the neighbour was added to the
+    // queue
+    // otherwise it would have been -1
+    public boolean isCyclicUndirected(Graph graph) {
+        Queue<Integer> queue = new LinkedList<>();
+        int[] colors = new int[graph.nVertices];
+        Arrays.fill(colors, -1);
+        for (int i = 0; i < graph.nVertices; i++) {
+            if (colors[i] == -1) {
+                queue.offer(i);
+                colors[i] = 0;
+                while (!queue.isEmpty()) {
+                    int current = queue.poll();
+                    colors[current] = 1;
+                    for (int node : graph.adjencyList.get(current)) {
+                        if (colors[node] == 0)
+                            return true;
+                        else if (colors[node] == -1) {
+                            queue.offer(node);
+                            colors[node] = 0;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
-        int nVertices = 18;
+        int nVertices = 4;
         Graph graph = new Graph(nVertices);
-        graph.addEdge(0, 8);
-        graph.addEdge(0, 13);
-        graph.addEdge(0, 4);
-        graph.addEdge(0, 14);
-        graph.addEdge(8, 4);
-        graph.addEdge(8, 14);
-        graph.addEdge(13, 14);
-        graph.addEdge(1, 5);
-        graph.addEdge(5, 16);
-        graph.addEdge(5, 17);
-        graph.addEdge(3, 9);
-        graph.addEdge(9, 15);
-        graph.addEdge(9, 2);
-        graph.addEdge(15, 2);
-        graph.addEdge(10, 15);
-        graph.addEdge(7, 6);
-        graph.addEdge(6, 11);
-        graph.addEdge(11, 7);
+        // graph.addEdge(0, 8);
+        // graph.addEdge(0, 13);
+        // graph.addEdge(0, 4);
+        // graph.addEdge(0, 14);
+        // graph.addEdge(8, 4);
+        // graph.addEdge(8, 14);
+        // graph.addEdge(13, 14);
+        // graph.addEdge(1, 5);
+        // graph.addEdge(5, 16);
+        // graph.addEdge(5, 17);
+        // graph.addEdge(3, 9);
+        // graph.addEdge(9, 15);
+        // graph.addEdge(9, 2);
+        // graph.addEdge(15, 2);
+        // graph.addEdge(10, 15);
+        // graph.addEdge(7, 6);
+        // graph.addEdge(6, 11);
+        // graph.addEdge(11, 7);
+
         // graph.addEdge(8, 1);
         // graph.addEdge(10, 13);
         // graph.addEdge(7, 12);
@@ -233,6 +268,16 @@ public class Graph {
         // System.out.println();
         // graph.countNumberOfConnectedComponents();
         // graph.printShortestPath(12, 4);
-        graph.DFSUsingStack(graph, 0);
+
+        // graph.addEdge(0, 1);
+        graph.addEdge(1, 2);
+        graph.addEdge(2, 3);
+        // graph.addEdge(3, 1);
+        // graph.addEdge(3, 4);
+        // graph.addEdge(4, 1);
+        // graph.printGraph();
+        // graph.DFS(0);
+        // graph.countNumberOfConnectedComponents();
+        System.out.println(graph.isCyclicUndirected(graph));
     }
 }
