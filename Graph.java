@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Stack;
 
 public class Graph {
 
@@ -78,6 +79,32 @@ public class Graph {
         for (int v : adjencyList.get(vertex)) {
             if (!visited[v])
                 DFSUtil(v, visited);
+        }
+    }
+
+    public void DFSUsingStack(Graph graph, int startingVertex) {
+        boolean[] visited = new boolean[graph.nVertices];
+        Stack<Integer> stack = new Stack<>();
+        // stack.push(startingVertex);
+        // visited[startingVertex] = true;
+        for (int i = 0; i < graph.nVertices; i++) {
+            if (!visited[i]) {
+                stack.push(i);
+                visited[i] = true;
+                while (!stack.empty()) {
+                    int current = stack.pop();
+                    System.out.print(current + " ");
+                    // visited[current] = true;
+                    for (int vertex : graph.adjencyList.get(current)) {
+                        if (!visited[vertex]) {
+                            // System.out.println("current= " + current + " Pushing to stack " + vertex);
+                            stack.push(vertex);
+                            visited[vertex] = true;
+                        }
+                    }
+                }
+                System.out.println();
+            }
         }
     }
 
@@ -199,12 +226,13 @@ public class Graph {
         // graph.addEdge(10, 13);
         // graph.addEdge(7, 12);
         // graph.addEdge(17, 12);
-        graph.printGraph();
-        graph.BFS(1);
-        System.out.println();
-        graph.DFS(1);
-        System.out.println();
-        graph.countNumberOfConnectedComponents();
-        graph.printShortestPath(12, 4);
+        // graph.printGraph();
+        // graph.BFS(1);
+        // System.out.println();
+        // graph.DFS(1);
+        // System.out.println();
+        // graph.countNumberOfConnectedComponents();
+        // graph.printShortestPath(12, 4);
+        graph.DFSUsingStack(graph, 0);
     }
 }

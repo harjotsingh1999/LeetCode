@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
+import java.util.Stack;
 
 public class WeightedGraph {
     int nVertices;
@@ -40,6 +41,7 @@ public class WeightedGraph {
 
             // getting the next most promising node
             // i.e. node at minimum distance/ edge wt.
+
             Pair current = pq.poll();
             visited[current.nodeTo] = true;
             System.out.println("current node= " + current.toString());
@@ -124,25 +126,115 @@ public class WeightedGraph {
                 }
             }
             System.out.println("current distances array= " + Arrays.toString(distances));
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            // try {
+            // Thread.sleep(5000);
+            // } catch (InterruptedException e) {
+            // e.printStackTrace();
+            // }
         }
         System.out.println("Min distances from start= " + startNode + " to each node= " + Arrays.toString(distances));
+    }
+
+    // USING DFS
+    public boolean isCyclic(WeightedGraph graph) {
+        boolean[] visited = new boolean[nVertices];
+        boolean[] recStack = new boolean[nVertices];
+        for (int i = 0; i < graph.nVertices; i++) {
+            System.out.println("WeightedGraph.isCyclic() currently at " + i);
+            if (isCyclicUtil(graph, visited, recStack, i))
+                return true;
+        }
+        return false;
+    }
+
+    private boolean isCyclicUtil(WeightedGraph graph, boolean[] visited, boolean[] recStack, int node) {
+        if (recStack[node])
+            return true;
+        if (visited[node])
+            return false;
+        visited[node] = true;
+        recStack[node] = true;
+        List<Pair> edges = graph.adjencyList.get(node);
+        System.out.println("Edges of " + node + " are " + edges);
+        for (Pair pair : edges) {
+            if (isCyclicUtil(graph, visited, recStack, pair.nodeTo))
+                return true;
+        }
+        recStack[node] = false;
+        return false;
+    }
+
+    // CYCLIC using graph coloring
+    // WHITE= -1 ->unprocessed
+    // GRAY= 0 -> processing (in stack)
+    // BLACK= 1 -> processed(including all children)
+
+    public boolean isCyclic2(WeightedGraph graph) {
+        int[] colors = new int[graph.nVertices];
+        int[] parent = new int[graph.nVertices];
+
+        // mark all nodes as unprocessed
+        Arrays.fill(colors, -1);
+        Arrays.fill(parent, -1);
+        for (int i = 0; i < graph.nVertices; i++) {
+            if (colors[i] == -1) {
+                parent[i] = -1;
+                if (isCyclicUtil2(graph, colors, i, parent)) {
+                    System.out.println("Parent[]= " + Arrays.toString(parent));
+                    return true;
+                }
+            }
+        }
+        System.out.println("Parent[]= " + Arrays.toString(parent));
+        return false;
+    }
+
+    private void printCycle(int[] parent, int start, int end) {
+        System.out.println("start= " + start + " end= " + end);
+    }
+
+    private boolean isCyclicUtil2(WeightedGraph graph, int[] colors, int node, int[] parent) {
+
+        System.out.println("processing " + node + " colors= " + Arrays.toString(colors));
+        // if incurred an already processing node
+        if (colors[node] == 0)
+            return true;
+
+        // no need to check for node that is already processed completely
+        if (colors[node] == 1)
+            return false;
+
+        // mark as processing
+        colors[node] = 0;
+        for (Pair edge : graph.adjencyList.get(node)) {
+            parent[edge.nodeTo] = node;
+            if (isCyclicUtil2(graph, colors, edge.nodeTo, parent)) {
+                printCycle(parent, node, edge.nodeTo);
+                return true;
+            }
+        }
+        // mark as processed
+        colors[node] = 1;
+        return false;
     }
 
     public static void main(String[] args) {
         int nVertices = 5;
         WeightedGraph weightedGraph = new WeightedGraph(nVertices);
-        weightedGraph.addEdge(0, 1, 4);
-        weightedGraph.addEdge(0, 2, 1);
-        weightedGraph.addEdge(2, 1, 2);
-        weightedGraph.addEdge(1, 3, 1);
-        weightedGraph.addEdge(2, 3, 5);
-        weightedGraph.addEdge(3, 4, 3);
-        weightedGraph.Dijkstra(weightedGraph, nVertices, 0);
+        weightedGraph.addEdge(0, 1, 1);
+        weightedGraph.addEdge(2, 1, 1);
+        weightedGraph.addEdge(2, 3, 1);
+        weightedGraph.addEdge(3, 4, 1);
+        weightedGraph.addEdge(4, 2, 1);
+        weightedGraph.addEdge(4, 0, 1);
+        // weightedGraph.addEdge(0, 1, 4);
+        // weightedGraph.addEdge(0, 2, 1);
+        // weightedGraph.addEdge(2, 1, 2);
+        // weightedGraph.addEdge(1, 3, 1);
+        // weightedGraph.addEdge(2, 3, 5);
+        // weightedGraph.addEdge(3, 4, 3);
+        // weightedGraph.Dijkstra(weightedGraph, nVertices, 0);
+        System.out.println(weightedGraph.isCyclic2(weightedGraph));
     }
 }
 
