@@ -56,6 +56,9 @@ public class WeightedGraph {
                 // helps detect if an edge points towards itself or an ancestor
                 // basically a cycle
                 // hence we skip the node
+
+                // You cannot get a shorter path by revisiting
+                // a node you have already visited before.
                 if (visited[pair.nodeTo])
                     continue;
 
@@ -94,6 +97,38 @@ public class WeightedGraph {
         parents.add(current);
         Collections.reverse(parents);
         System.out.println(parents);
+    }
+
+    public void bellmanFordAlgo(WeightedGraph graph, int startNode) {
+
+        // Initialize the distance to all nodes to be infinity
+        // except for the start node which is zero.
+        double[] distances = new double[graph.nVertices];
+        Arrays.fill(distances, Double.POSITIVE_INFINITY);
+        distances[startNode] = 0;
+
+        // for each vertex, apply relaxation to all edges
+
+        // you can stop the loop early if there is no update in a loop
+        // by keeping a "wasAnyDistanceUpdated"
+
+        boolean wasAnyDistanceUpdated = true;
+        for (int i = 0; i < graph.nVertices - 1; i++) {
+            wasAnyDistanceUpdated = false;
+            for (int j = 0; j < graph.nVertices; j++) {
+                for (Pair edge : graph.adjencyList.get(j)) {
+                    if (distances[j] + edge.edgeWt < distances[edge.nodeTo]) {
+                        distances[edge.nodeTo] = distances[j] + edge.edgeWt;
+                        wasAnyDistanceUpdated = true;
+
+                    }
+                }
+            }
+            if (!wasAnyDistanceUpdated)
+                break;
+        }
+
+        // repeat the above entire code to check if there is a negative edge wt cycle
     }
 
     public void shortestPathUsingTopSort(WeightedGraph graph, int nNodes, int startNode) {
@@ -220,20 +255,20 @@ public class WeightedGraph {
     public static void main(String[] args) {
         int nVertices = 5;
         WeightedGraph weightedGraph = new WeightedGraph(nVertices);
-        weightedGraph.addEdge(0, 1, 1);
-        weightedGraph.addEdge(2, 1, 1);
-        weightedGraph.addEdge(2, 3, 1);
-        weightedGraph.addEdge(3, 4, 1);
-        weightedGraph.addEdge(4, 2, 1);
-        weightedGraph.addEdge(4, 0, 1);
-        // weightedGraph.addEdge(0, 1, 4);
-        // weightedGraph.addEdge(0, 2, 1);
-        // weightedGraph.addEdge(2, 1, 2);
-        // weightedGraph.addEdge(1, 3, 1);
-        // weightedGraph.addEdge(2, 3, 5);
-        // weightedGraph.addEdge(3, 4, 3);
-        // weightedGraph.Dijkstra(weightedGraph, nVertices, 0);
-        System.out.println(weightedGraph.isCyclic2(weightedGraph));
+        // weightedGraph.addEdge(0, 1, 1);
+        // weightedGraph.addEdge(2, 1, 1);
+        // weightedGraph.addEdge(2, 3, 1);
+        // weightedGraph.addEdge(3, 4, 1);
+        // weightedGraph.addEdge(4, 2, 1);
+        // weightedGraph.addEdge(4, 0, 1);
+        weightedGraph.addEdge(0, 1, 4);
+        weightedGraph.addEdge(0, 2, 1);
+        weightedGraph.addEdge(2, 1, 2);
+        weightedGraph.addEdge(1, 3, 1);
+        weightedGraph.addEdge(2, 3, 5);
+        weightedGraph.addEdge(3, 4, 3);
+        weightedGraph.Dijkstra(weightedGraph, nVertices, 0);
+        // System.out.println(weightedGraph.isCyclic2(weightedGraph));
     }
 }
 

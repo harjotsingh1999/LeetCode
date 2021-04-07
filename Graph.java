@@ -208,8 +208,7 @@ public class Graph {
     // if at any point you find the neighbour of any node to be 0, meaning neighbour
     // is already in the queue, means cycle is present
     // because there was an alternate path from where the neighbour was added to the
-    // queue
-    // otherwise it would have been -1
+    // queue, otherwise it would have been -1
     public boolean isCyclicUndirected(Graph graph) {
         Queue<Integer> queue = new LinkedList<>();
         int[] colors = new int[graph.nVertices];
