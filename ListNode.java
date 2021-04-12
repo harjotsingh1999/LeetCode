@@ -438,6 +438,201 @@ public class ListNode {
         return head;
     }
 
+    // You are given two linked lists: list1 and list2 of sizes n and m
+    // respectively.
+
+    // Remove list1's nodes from the ath node to the bth node, and put list2 in
+    // their place.
+
+    // The blue edges and nodes in the following figure incidate the result:
+
+    // Build the result list and return its head.
+
+    // Example 1:
+
+    // Input: list1 = [0,1,2,3,4,5], a = 3, b = 4, list2 = [1000000,1000001,1000002]
+    // Output: [0,1,2,1000000,1000001,1000002,5]
+    // Explanation: We remove the nodes 3 and 4 and put the entire list2 in their
+    // place. The blue edges and nodes in the above figure indicate the result.
+
+    // Example 2:
+
+    // Input: list1 = [0,1,2,3,4,5,6], a = 2, b = 5, list2 =
+    // [1000000,1000001,1000002,1000003,1000004]
+    // Output: [0,1,1000000,1000001,1000002,1000003,1000004,6]
+    // Explanation: The blue edges and nodes in the above figure indicate the
+    // result.
+
+    // Constraints:
+
+    // 3 <= list1.length <= 104
+    // 1 <= a <= b < list1.length - 1
+    // 1 <= list2.length <= 104
+
+    public ListNode mergeInBetween(ListNode list1, int a, int b, ListNode list2) {
+        ListNode temp1 = list1, temp2 = list2;
+        int index1 = 0;
+
+        // will point to last node of list2
+        while (temp2.next != null) {
+            temp2 = temp2.next;
+        }
+
+        // temp node to point to a-1 th node of list 1
+        ListNode prevANode = null;
+        while (index1 != b + 1 && temp1 != null) {
+            if (index1 == a - 1)
+                prevANode = temp1;
+
+            temp1 = temp1.next;
+            index1 += 1;
+
+        }
+        // a-1 th node will now point to start of list2
+        prevANode.next = list2;
+
+        // end of list2 will now point to b+1th node of list1
+        temp2.next = temp1;
+        return list1;
+    }
+
+    // You are given the head of a linked list, and an integer k.
+
+    // Return the head of the linked list after swapping the values of the kth node
+    // from the beginning and the kth node from the end (the list is 1-indexed).
+
+    // Example 1:
+
+    // Input: head = [1,2,3,4,5], k = 2
+    // Output: [1,4,3,2,5]
+
+    // Example 2:
+
+    // Input: head = [7,9,6,6,7,8,3,0,9,5], k = 5
+    // Output: [7,9,6,6,8,7,3,0,9,5]
+
+    // Example 3:
+
+    // Input: head = [1], k = 1
+    // Output: [1]
+
+    // Example 4:
+
+    // Input: head = [1,2], k = 1
+    // Output: [2,1]
+
+    // Example 5:
+
+    // Input: head = [1,2,3], k = 2
+    // Output: [1,2,3]
+
+    // Constraints:
+
+    // The number of nodes in the list is n.
+    // 1 <= k <= n <= 105
+    // 0 <= Node.val <= 100
+
+    public ListNode swapNodes(ListNode head, int k) {
+        ListNode temp = head;
+        int length = 0;
+        ListNode kthFromStart = null, kthFromEnd = null;
+        while (temp != null) {
+            if (length == k - 1)
+                kthFromStart = temp;
+            temp = temp.next;
+            length += 1;
+        }
+        int index = 0;
+        temp = head;
+        while (temp != null) {
+            if (index == length - k)
+                kthFromEnd = temp;
+            temp = temp.next;
+            index += 1;
+        }
+        System.out.println(kthFromStart.val);
+        System.out.println(kthFromEnd.val);
+        int x = kthFromEnd.val;
+        kthFromEnd.val = kthFromStart.val;
+        kthFromStart.val = x;
+        return head;
+    }
+
+    // You are given two non-empty linked lists representing two non-negative
+    // integers. The most significant digit comes first and each of their nodes
+    // contains a single digit. Add the two numbers and return the sum as a linked
+    // list.
+
+    // You may assume the two numbers do not contain any leading zero, except the
+    // number 0 itself.
+
+    // Example 1:
+
+    // Input: l1 = [7,2,4,3], l2 = [5,6,4]
+    // Output: [7,8,0,7]
+
+    // Example 2:
+
+    // Input: l1 = [2,4,3], l2 = [5,6,4]
+    // Output: [8,0,7]
+
+    // Example 3:
+
+    // Input: l1 = [0], l2 = [0]
+    // Output: [0]
+
+    // Constraints:
+
+    // The number of nodes in each linked list is in the range [1, 100].
+    // 0 <= Node.val <= 9
+    // It is guaranteed that the list represents a number that does not have leading
+    // zeros.
+
+    public ListNode addTwoNumbers2(ListNode l1, ListNode l2) {
+
+        // since the numbers are given in the normal order,
+        // and we sum from the last digits
+        // hence we need stacks
+        Stack<Integer> stack1 = new Stack<>();
+        Stack<Integer> stack2 = new Stack<>();
+        ListNode temp1 = l1;
+        ListNode temp2 = l2;
+        while (temp1 != null || temp2 != null) {
+            if (temp1 != null) {
+                stack1.push(temp1.val);
+                temp1 = temp1.next;
+            }
+            if (temp2 != null) {
+                stack2.push(temp2.val);
+                temp2 = temp2.next;
+            }
+        }
+        System.out.println(stack1);
+        System.out.println(stack2);
+        Stack<Integer> sumStack = new Stack<>();
+        int carry = 0;
+        while (!stack1.empty() || !stack2.empty()) {
+            int d1 = 0, d2 = 0;
+            if (!stack1.empty())
+                d1 = stack1.pop();
+            if (!stack2.empty())
+                d2 = stack2.pop();
+            int sum = (d1 + d2 + carry) % 10;
+            carry = (d1 + d2 + carry) / 10;
+            sumStack.push(sum);
+        }
+        if (carry != 0)
+            sumStack.push(carry);
+        System.out.println(sumStack);
+        ListNode sumHead = new ListNode(sumStack.pop());
+        ListNode sumTemp = sumHead;
+        while (!sumStack.empty()) {
+            sumTemp.next = new ListNode(sumStack.pop());
+            sumTemp = sumTemp.next;
+        }
+        return sumHead;
+    }
+
     public static void main(String[] args) {
 
         ListNode listNode = new ListNode();
@@ -445,14 +640,15 @@ public class ListNode {
         int l1 = listNode.read.nextInt();
         ListNode list1 = listNode.createList(l1);
         listNode.printList(list1);
-        // System.out.println("Enter len of second list");
-        // int l2 = listNode.read.nextInt();
-        // ListNode list2 = listNode.createList(l2);
-        // listNode.printList(list2);
+        System.out.println("Enter len of second list");
+        int l2 = listNode.read.nextInt();
+        ListNode list2 = listNode.createList(l2);
+        listNode.printList(list2);
         // ListNode sum = listNode.addTwoNumbers(list1, list2);
         // listNode.printList(sum);
-        list1 = listNode.removeNthFromEnd(list1, 1);
-        listNode.printList(list1);
+        // list1 = listNode.mergeInBetween(list1, 3, 4, list2);
+        ListNode sum = listNode.addTwoNumbers2(list1, list2);
+        listNode.printList(sum);
         listNode.read.close();
     }
 }

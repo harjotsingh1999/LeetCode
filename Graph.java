@@ -234,9 +234,94 @@ public class Graph {
         return false;
     }
 
+    // Given a directed acyclic graph (DAG) of n nodes labeled from 0 to n - 1, find
+    // all possible paths from node 0 to node n - 1, and return them in any order.
+
+    // The graph is given as follows: graph[i] is a list of all nodes you can visit
+    // from node i (i.e., there is a directed edge from node i to node graph[i][j]).
+
+    // Example 1:
+
+    // Input: graph = [[1,2],[3],[3],[]]
+    // Output: [[0,1,3],[0,2,3]]
+    // Explanation: There are two paths: 0 -> 1 -> 3 and 0 -> 2 -> 3.
+
+    // Runtime: 2 ms, faster than 93.66% of Java online submissions for All Paths
+    // From Source to Target.
+    // Memory Usage: 40.9 MB, less than 28.94% of Java online submissions for All
+    // Paths From Source to Target.
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+
+        // to store all possible paths
+        List<List<Integer>> out = new ArrayList<>();
+
+        // to store current ongoing path
+        List<Integer> path = new ArrayList<>();
+        path.add(0);
+        traverse(0, graph, path, out);
+        return out;
+    }
+
+    public void traverse(int current, int[][] graph, List<Integer> currentPath, List<List<Integer>> out) {
+
+        // as soon as we reach the destination, add current paths to valid paths and
+        // return
+
+        System.out.println("currently at " + current + " currentPath= " + currentPath + " all paths yet= " + out);
+        if (current == graph.length - 1) {
+            out.add(currentPath);
+            return;
+        }
+
+        // for all adjascent nodes of this node
+        for (int node : graph[current]) {
+
+            // create a new list
+            List<Integer> curList = new ArrayList<>();
+
+            // copy over the current ongoing path
+            curList.addAll(currentPath);
+            // add the current node to the path
+            curList.add(node);
+            // and traverse with this path
+            traverse(node, graph, curList, out);
+        }
+    }
+
+    // above problem using BFS
+
+    // apparently slower than above
+    public List<List<Integer>> printAllPaths(int[][] graph) {
+        Queue<List<Integer>> queue = new LinkedList<>();
+        List<List<Integer>> out = new ArrayList<>();
+        List<Integer> path = new ArrayList<>();
+        path.add(0);
+        queue.add(path);
+        while (!queue.isEmpty()) {
+            List<Integer> currentPath = queue.poll();
+            int lastNodeIncurrentPath = currentPath.get(currentPath.size() - 1);
+
+            System.out.println("currently at " + lastNodeIncurrentPath + " currentPath= " + currentPath
+                    + " all validPaths= " + out);
+            // if destination reached
+            if (lastNodeIncurrentPath == graph.length - 1) {
+                out.add(currentPath);
+                continue;
+            }
+            // for all connected nodes
+            for (int node : graph[lastNodeIncurrentPath]) {
+                List<Integer> newPath = new ArrayList<>();
+                newPath.addAll(currentPath);
+                newPath.add(node);
+                queue.offer(newPath);
+            }
+        }
+        return out;
+    }
+
     public static void main(String[] args) {
         int nVertices = 4;
-        Graph graph = new Graph(nVertices);
+        Graph sgraph = new Graph(nVertices);
         // graph.addEdge(0, 8);
         // graph.addEdge(0, 13);
         // graph.addEdge(0, 4);
@@ -269,14 +354,18 @@ public class Graph {
         // graph.printShortestPath(12, 4);
 
         // graph.addEdge(0, 1);
-        graph.addEdge(1, 2);
-        graph.addEdge(2, 3);
+        // graph.addEdge(1, 2);
+        // graph.addEdge(2, 3);
         // graph.addEdge(3, 1);
         // graph.addEdge(3, 4);
         // graph.addEdge(4, 1);
         // graph.printGraph();
         // graph.DFS(0);
         // graph.countNumberOfConnectedComponents();
-        System.out.println(graph.isCyclicUndirected(graph));
+        // System.out.println(graph.isCyclicUndirected(graph));
+        // int[][] graph = { { 1, 2 }, { 3 }, { 3 }, {} };
+
+        int[][] graph = { { 4, 3, 1 }, { 3, 2, 4 }, { 3 }, { 4 }, {} };
+        System.out.println(sgraph.printAllPaths(graph));
     }
 }

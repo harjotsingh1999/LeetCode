@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.Stack;
+import java.util.Stack;;
 
 public class TreeNode {
     int val;
@@ -564,6 +564,205 @@ public class TreeNode {
             ind += 1;
         }
         return arr;
+    }
+
+    // Two nodes of a binary tree are cousins if they have the same depth, but have
+    // different parents.
+    public boolean isCousins(TreeNode root, int x, int y) {
+        if (root == null)
+            return false;
+        Queue<TreeNode> queue = new LinkedList<>();
+        int currentLevel = 1;
+        queue.offer(root);
+        queue.offer(new TreeNode(-1));
+        int parentx = -1, parenty = -1;
+        int levelx = -1, levely = -1;
+        while (!queue.isEmpty()) {
+            TreeNode current = queue.poll();
+            if (current.val == -1) {
+                currentLevel += 1;
+                if (!queue.isEmpty())
+                    queue.offer(new TreeNode(-1));
+            } else {
+                if (current.left != null) {
+                    queue.offer(current.left);
+                    if (current.left.val == x) {
+                        parentx = current.val;
+                        levelx = currentLevel + 1;
+                    } else if (current.left.val == y) {
+                        parenty = current.val;
+                        levely = currentLevel + 1;
+                    }
+                }
+                if (current.right != null) {
+                    queue.offer(current.right);
+                    if (current.right.val == x) {
+                        parentx = current.val;
+                        levelx = currentLevel + 1;
+                    } else if (current.right.val == y) {
+                        parenty = current.val;
+                        levely = currentLevel + 1;
+                    }
+                }
+            }
+            if (parentx != parenty && levelx == levely)
+                return true;
+        }
+        return false;
+    }
+
+    // return level in which sum of nodes is maximum
+    // Constraints:
+
+    // The number of nodes in the tree is in the range [1, 104].
+    // -105 <= Node.val <= 105
+
+    public int maxLevelSum(TreeNode root) {
+        if (root == null)
+            return 0;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        int currentLevel = 1;
+        int currentSum = 0;
+        int maxSum = Integer.MIN_VALUE;
+        int maxSumLevel = 0;
+
+        // as a delimitter for level change
+        queue.offer(new TreeNode(Integer.MAX_VALUE));
+        while (!queue.isEmpty()) {
+            TreeNode currentNode = queue.poll();
+
+            // incurred a delimitter
+            if (currentNode.val == Integer.MAX_VALUE) {
+                if (currentSum > maxSum) {
+                    maxSum = currentSum;
+                    maxSumLevel = currentLevel;
+                }
+                // increment a level
+                currentLevel += 1;
+                // if there are more nodes, add a delimitter
+                if (!queue.isEmpty()) {
+                    queue.offer(new TreeNode(Integer.MAX_VALUE));
+                }
+            } else {
+                currentSum += currentNode.val;
+                if (currentNode.left != null)
+                    queue.offer(currentNode.left);
+                if (currentNode.right != null)
+                    queue.offer(currentNode.right);
+            }
+        }
+        return maxSumLevel;
+    }
+
+    // Given the root of a binary tree, return the leftmost value in the last row of
+    // the tree.
+
+    // Example 1:
+
+    // Input: root = [2,1,3]
+    // Output: 1
+
+    // Example 2:
+
+    // Input: root = [1,2,3,4,null,5,6,null,null,7]
+    // Output: 7
+
+    // Constraints:
+
+    // The number of nodes in the tree is in the range [1, 104].
+    // -231 <= Node.val <= 231 - 1
+
+    // Runtime: 1 ms, faster than 67.81% of Java online submissions for Find Bottom
+    // Left Tree Value.
+    // Memory Usage: 38 MB, less than 99.78% of Java online submissions for Find
+    // Bottom Left Tree Value.
+
+    public int findBottomLeftValue(TreeNode root) {
+        if (root == null)
+            return 0;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+
+        // as a delimiter
+        queue.offer(null);
+        int lastLeft = root.val;
+        while (!queue.isEmpty()) {
+            TreeNode current = queue.poll();
+            if (current == null) {
+                if (!queue.isEmpty())
+                    queue.offer(null);
+            } else {
+                if (current.right != null) {
+                    queue.offer(current.right);
+                    lastLeft = current.right.val;
+                }
+                if (current.left != null) {
+                    queue.offer(current.left);
+                    lastLeft = current.left.val;
+                }
+            }
+        }
+        return lastLeft;
+    }
+
+    // Given the root of a binary tree, imagine yourself standing on the right side
+    // of it, return the values of the nodes you can see ordered from top to bottom.
+
+    // Example 1:
+
+    // Input: root = [1,2,3,null,5,null,4]
+    // Output: [1,3,4]
+
+    // Example 2:
+
+    // Input: root = [1,null,3]
+    // Output: [1,3]
+
+    // Example 3:
+
+    // Input: root = []
+    // Output: []
+
+    // Constraints:
+
+    // The number of nodes in the tree is in the range [0, 100].
+    // -100 <= Node.val <= 100
+
+    // Runtime: 1 ms, faster than 72.60% of Java online submissions for Binary Tree
+    // Right Side View.
+    // Memory Usage: 37.3 MB, less than 92.23% of Java online submissions for Binary
+    // Tree Right Side View.
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        if (root == null)
+            return list;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        list.add(root.val);
+        // as a delimiter
+        queue.offer(new TreeNode(-1000));
+
+        int prevRightmost = root.val;
+        while (!queue.isEmpty()) {
+            TreeNode current = queue.poll();
+            if (current.val == -1000) {
+                if (!queue.isEmpty()) {
+                    queue.offer(new TreeNode(-1000));
+                    list.add(prevRightmost);
+                }
+            } else {
+                if (current.left != null) {
+                    prevRightmost = current.left.val;
+                    queue.offer(current.left);
+                }
+                if (current.right != null) {
+                    prevRightmost = current.right.val;
+                    queue.offer(current.right);
+                }
+            }
+        }
+        return list;
     }
 
     public static void main(String[] args) {
