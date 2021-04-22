@@ -63,12 +63,12 @@ public class WordBoggle {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
                 findWords(i, j, str, board, visited, dic, found);
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                // try {
+                // Thread.sleep(5000);
+                // } catch (InterruptedException e) {
+                // //
+                // e.printStackTrace();
+                // }
             }
         }
 
@@ -94,12 +94,12 @@ public class WordBoggle {
                 // System.out.println("i,j= " + i + "," + j + " and k,k2= " + k + "," + k2 + "
                 // str= " + str);
                 findWords(i + k, j + k2, str, board, visited, dic, found);
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                // try {
+                // Thread.sleep(5000);
+                // } catch (InterruptedException e) {
+                //
+                // e.printStackTrace();
+                // }
             }
         }
         str = str.substring(0, str.length() - 1);

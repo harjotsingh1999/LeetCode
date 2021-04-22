@@ -24,6 +24,11 @@ public class TreeNode {
         this.right = right;
     }
 
+    @Override
+    public String toString() {
+        return "Node" + this.val;
+    }
+
     public void printPreOrderRecursive(TreeNode root) {
         if (root == null)
             return;
@@ -765,16 +770,33 @@ public class TreeNode {
         return list;
     }
 
+    public void vertialOrderTraversal(TreeNode root) {
+        HashMap<Integer, List<TreeNode>> map = new HashMap<>();
+        VOTUtil(root, map, 0);
+        System.out.println("Vertical order= " + map);
+    }
+
+    public void VOTUtil(TreeNode root, HashMap<Integer, List<TreeNode>> map, int x) {
+        if (!map.containsKey(x))
+            map.put(x, new ArrayList<>());
+        map.get(x).add(root);
+        if (root.left != null)
+            VOTUtil(root.left, map, x - 1);
+        if (root.right != null)
+            VOTUtil(root.right, map, x + 1);
+    }
+
     public static void main(String[] args) {
         TreeNode root = new TreeNode(1);
         root.left = new TreeNode(2);
         root.right = new TreeNode(3);
-        root.left.left = new TreeNode(3);
-        root.left.right = new TreeNode(2);
-        root.right.left = new TreeNode(2);
-        root.right.right = new TreeNode(3);
+        root.left.left = new TreeNode(4);
+        root.left.right = new TreeNode(5);
+        root.right.left = new TreeNode(6);
+        root.right.right = new TreeNode(7);
         root.printTreeLevelByLevel(root);
         System.out.println(Arrays.toString(root.findMode(root)));
+        root.vertialOrderTraversal(root);
         // System.out.println(root.binaryTreePaths(root).toString());
         // TreeNode root2 = new TreeNode(1);
         // root2.left = new TreeNode(2);
