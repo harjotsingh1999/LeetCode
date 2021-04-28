@@ -66,6 +66,7 @@ public class CoinChange {
         return count;
     }
 
+    // correct soln
     public void countWaysTab(int[] coins, int sum) {
         int[][] dp = new int[coins.length + 1][sum + 1];
 
@@ -93,6 +94,52 @@ public class CoinChange {
             }
         }
         System.out.println(dp[coins.length][sum]);
+    }
+
+    // recursive approach
+    public long countCoinsWays(int S[], int size, int sum) {
+        // code here.
+
+        long[][] dp = new long[size + 1][sum + 1];
+
+        // zero ways to create sum with no coins
+        Arrays.fill(dp[0], 0);
+
+        // exactly 1 way to create sum 0, by taking no elements
+        for (int i = 0; i <= size; i++) {
+            dp[i][0] = 1;
+        }
+
+        return countCoinsRec(S, sum, size, dp);
+    }
+
+    public long countCoinsRec(int[] arr, int target, int n, long[][] dp) {
+
+        // exactly 1 way to get target of 0
+        // taking no elements
+        if (target == 0)
+            return 1;
+        // if no elements remain
+        // there is no way any sum can be generated
+        if (n <= 0)
+            return 0;
+        // if answer cached, return it
+        if (dp[n][target] != 0)
+            return dp[n][target];
+
+        // if current element is greater than target
+        // we have to exclude it
+        if (arr[n - 1] > target)
+            return countCoinsRec(arr, target, n - 1, dp);
+
+        // otherwise include it , and exclude it to get total ways
+        // excluding means getting the same sum without this element
+        // i.e., a row above
+
+        // including means getting the target-arr[n-1] sum
+        // and in the same row, cuz we have infinite supply
+        else
+            return countCoinsRec(arr, target, n - 1, dp) + countCoinsRec(arr, target - arr[n - 1], n, dp);
     }
 
     // You are given an integer array coins representing coins of different

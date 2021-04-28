@@ -642,10 +642,70 @@ public class StringProblems {
         return ans;
     }
 
+    // Given a string s, return the longest palindromic substring in s.
+
+    // Example 1:
+
+    // Input: s = "babad"
+    // Output: "bab"
+    // Note: "aba" is also a valid answer.
+
+    // Example 2:
+
+    // Input: s = "cbbd"
+    // Output: "bb"
+
+    // Example 3:
+
+    // Input: s = "a"
+    // Output: "a"
+
+    // Example 4:
+
+    // Input: s = "ac"
+    // Output: "a"
+
+    // Constraints:
+
+    // 1 <= s.length <= 1000
+    // s consist of only digits and English letters (lower-case and/or upper-case),
+
+    public String longestPalindromicSubstring(String s) {
+        boolean[][] dp = new boolean[s.length()][s.length()];
+        String lps = String.valueOf(s.charAt(0));
+
+        for (int i = 0; i < dp.length; i++) {
+            for (int j = 0; j < dp.length; j++) {
+                if (i == j)
+                    dp[i][j] = true;
+                else if (j - i == 1 && s.charAt(i) == s.charAt(j)) {
+                    dp[i][j] = true;
+                    lps = s.substring(i, j + 1);
+                    System.out.println("current lps= " + lps);
+                }
+            }
+        }
+        System.out.println("lps before second loop= " + lps);
+
+        for (int i = 0; i < dp.length; i++) {
+            for (int j = 0; j < dp.length; j++) {
+                if (j - i > 1) {
+                    System.out.println("i= " + i + " and j= " + j);
+                    dp[i][j] = (s.charAt(i) == s.charAt(j)) && dp[i + 1][j - 1];
+                    if (dp[i][j] && j - i + 1 > lps.length()) {
+                        lps = s.substring(i, j + 1);
+                        System.out.println("i= " + i + " and j= " + j + " lps= " + lps);
+                    }
+                }
+            }
+        }
+        return lps;
+    }
+
     public static void main(String[] args) {
         StringProblems stringProblems = new StringProblems();
         // String[] words = { "adsdf", "sfd" };
         // System.out.println(Arrays.toString(stringProblems.findWords(words)));
-        System.out.println(stringProblems.lengthOfLongestSubstring("pwwkew"));
+        System.out.println(stringProblems.longestPalindromicSubstring("babab"));
     }
 }
