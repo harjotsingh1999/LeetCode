@@ -1,0 +1,222 @@
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * A Binary Heap is a Binary Tree with following properties. 1) It’s a complete
+ * tree (All levels are completely filled except possibly the last level and the
+ * last level has all keys as left as possible). This property of Binary Heap
+ * makes them suitable to be stored in an array.
+ * 
+ * 2) A Binary Heap is either Min Heap or Max Heap. In a Min Binary Heap, the
+ * key at root must be minimum among all keys present in Binary Heap. The same
+ * property must be recursively true for all nodes in Binary Tree. Max Binary
+ * Heap is similar to MinHeap.
+ * 
+ * 
+ * A Binary Heap is a Complete Binary Tree. A binary heap is typically
+ * represented as an array.
+ * 
+ * The root element will be at Arr[0]. Below table shows indexes of other nodes
+ * for the ith node, i.e., Arr[i]:
+ * 
+ * Arr[(i-1)/2] Returns the parent node
+ * 
+ * Arr[(2*i)+1] Returns the left child node
+ * 
+ * Arr[(2*i)+2] Returns the right child node
+ * 
+ * 
+ * 
+ * Applications of Heaps: 1) Heap Sort: Heap Sort uses Binary Heap to sort an
+ * array in O(nLogn) time.
+ * 
+ * 2) Priority Queue: Priority queues can be efficiently implemented using
+ * Binary Heap because it supports insert(), delete() and extractmax(),
+ * decreaseKey() operations in O(logn) time. Binomoial Heap and Fibonacci Heap
+ * are variations of Binary Heap. These variations perform union also
+ * efficiently.
+ * 
+ * 3) Graph Algorithms: The priority queues are especially used in Graph
+ * Algorithms like Dijkstra’s Shortest Path and Prim’s Minimum Spanning Tree.
+ * 
+ * 4) Many problems can be efficiently solved using Heaps. See following for
+ * example. a) K’th Largest Element in an array. b) Sort an almost sorted array/
+ * c) Merge K Sorted Arrays.
+ * 
+ * Operations on Min Heap:
+ * 
+ * 1) getMini(): It returns the root element of Min Heap. Time Complexity of
+ * this operation is O(1).
+ * 
+ * 2) extractMin(): Removes the minimum element from MinHeap. Time Complexity of
+ * this Operation is O(Logn) as this operation needs to maintain the heap
+ * property (by calling heapify()) after removing root.
+ * 
+ * 3) decreaseKey(): Decreases value of key. The time complexity of this
+ * operation is O(Logn). If the decreases key value of a node is greater than
+ * the parent of the node, then we don’t need to do anything. Otherwise, we need
+ * to traverse up to fix the violated heap property.
+ * 
+ * 4) insert(): Inserting a new key takes O(Logn) time. We add a new key at the
+ * end of the tree. IF new key is greater than its parent, then we don’t need to
+ * do anything. Otherwise, we need to traverse up to fix the violated heap
+ * property.
+ * 
+ * 5) delete(): Deleting a key also takes O(Logn) time. We replace the key to be
+ * deleted with minum infinite by calling decreaseKey(). After decreaseKey(),
+ * the minus infinite value must reach root, so we call extractMin() to remove
+ * the key.
+ */
+
+public class MaxHeap {
+
+    List<Integer> list = null;
+    int heapSize;
+
+    public MaxHeap() {
+        list = new ArrayList<>();
+        heapSize = 0;
+    }
+
+    void insert(int num) {
+        // add element to the last
+        int addAtIndex = heapSize;
+        list.add(addAtIndex, num);
+        heapSize += 1;
+        int parentIndex = (addAtIndex - 1) / 2;
+        if (parentIndex >= 0 && list.get(parentIndex) < num)
+            swimUp(addAtIndex);
+    }
+
+    // since this is a max heap,
+    // if child is larger than parent, it moves up
+    private void swimUp(int index) {
+        int parentIndex = (index - 1) / 2;
+        int ele = list.get(index);
+        while (index >= 0 && list.get(parentIndex) < ele) {
+            // System.out.println("index= " + index + " parent index= " + parentIndex + "
+            // ele= " + ele + " parent= "
+            // + list.get(parentIndex));
+            swap(index, parentIndex);
+            index = parentIndex;
+            parentIndex = (parentIndex - 1) / 2;
+        }
+    }
+
+    private void swap(int index, int parentIndex) {
+        int temp = list.get(index);
+        list.set(index, list.get(parentIndex));
+        list.set(parentIndex, temp);
+    }
+
+    // get the max(top) element
+    // present at position 0;
+    public int peek() {
+        return list.get(0);
+    }
+
+    // get the max, present at root,
+    public int poll() {
+        int max = list.get(0);
+        int lastEleIndex = heapSize - 1;
+        swap(0, lastEleIndex);
+        list.remove(lastEleIndex);
+        heapSize -= 1;
+        sinkDown(0);
+        return max;
+    }
+
+    private void sinkDown(int index) {
+        while (true) {
+            int leftChildIndex = 2 * index + 1, rightChildIndex = 2 * index + 2, maxChildIndex = index;
+
+            // if left child exists and is greater than this element
+            if (leftChildIndex < heapSize && list.get(leftChildIndex) > list.get(maxChildIndex))
+                maxChildIndex = leftChildIndex;
+
+            // if right child exists and is greater than this element, and the left child
+            if (rightChildIndex < heapSize && list.get(rightChildIndex) > list.get(maxChildIndex))
+                maxChildIndex = rightChildIndex;
+
+            // if index was not changed, i.e. this element was largest
+            // among its children, then break
+            if (maxChildIndex == index)
+                break;
+
+            // otherwise swap, and update its index
+            swap(index, maxChildIndex);
+            index = maxChildIndex;
+        }
+    }
+
+    public void remove(int key) {
+        // linearly search for the key
+        for (int i = 0; i < heapSize; i++) {
+            if (list.get(i) == key) {
+                int lastEleIndex = heapSize - 1;
+                swap(i, lastEleIndex);
+                list.remove(lastEleIndex);
+                heapSize -= 1;
+
+                // now we may have to swim up or sink down
+                sinkDown(i);
+                swimUp(i);
+            }
+        }
+    }
+
+    public boolean isMaxHeap(int rootIndex) {
+        if (rootIndex >= heapSize)
+            return true;
+        int leftIndex = rootIndex * 2 + 1;
+        int rightIndex = rootIndex * 2 + 2;
+
+        // if left child is greater, return false
+        if (leftIndex < heapSize && list.get(leftIndex) > list.get(rootIndex))
+            return false;
+        // if right child is greater return false
+        if (rightIndex < heapSize && list.get(rightIndex) > list.get(rootIndex))
+            return false;
+
+        return isMaxHeap(leftIndex) && isMaxHeap(rightIndex);
+    }
+
+    public static void main(String[] args) {
+        MaxHeap maxHeap = new MaxHeap();
+        maxHeap.insert(2);
+        System.out.println(maxHeap.isMaxHeap(0));
+        maxHeap.insert(4);
+        System.out.println(maxHeap.list);
+        System.out.println(maxHeap.isMaxHeap(0));
+        maxHeap.insert(6);
+        System.out.println(maxHeap.list);
+        System.out.println(maxHeap.isMaxHeap(0));
+        maxHeap.insert(1);
+        System.out.println(maxHeap.list);
+        System.out.println(maxHeap.isMaxHeap(0));
+        maxHeap.poll();
+        System.out.println(maxHeap.list);
+        System.out.println(maxHeap.isMaxHeap(0));
+        maxHeap.insert(7);
+        System.out.println(maxHeap.list);
+        System.out.println(maxHeap.isMaxHeap(0));
+        maxHeap.insert(8);
+        System.out.println(maxHeap.list);
+        System.out.println(maxHeap.isMaxHeap(0));
+        maxHeap.poll();
+        System.out.println(maxHeap.list);
+        System.out.println(maxHeap.isMaxHeap(0));
+        maxHeap.insert(10);
+        System.out.println(maxHeap.list);
+        System.out.println(maxHeap.isMaxHeap(0));
+        maxHeap.insert(100);
+        System.out.println(maxHeap.list);
+        System.out.println(maxHeap.isMaxHeap(0));
+        maxHeap.insert(8);
+        System.out.println(maxHeap.list);
+        System.out.println(maxHeap.isMaxHeap(0));
+        maxHeap.remove(10);
+        System.out.println(maxHeap.list);
+        System.out.println(maxHeap.isMaxHeap(0));
+    }
+}
