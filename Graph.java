@@ -204,7 +204,7 @@ public class Graph {
     // COLORS
     // -1 -> unvisited
     // 0 -> visited and in queue
-    // 2 -> removed from queue
+    // 1 -> removed from queue
     // if at any point you find the neighbour of any node to be 0, meaning neighbour
     // is already in the queue, means cycle is present
     // because there was an alternate path from where the neighbour was added to the
@@ -289,7 +289,6 @@ public class Graph {
     }
 
     // above problem using BFS
-
     // apparently slower than above
     public List<List<Integer>> printAllPaths(int[][] graph) {
         Queue<List<Integer>> queue = new LinkedList<>();
