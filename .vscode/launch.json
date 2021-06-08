@@ -1,0 +1,588 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch Anagrams",
+            "request": "launch",
+            "mainClass": "Anagrams",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch ArrangingCoins",
+            "request": "launch",
+            "mainClass": "ArrangingCoins",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch ArrayProblems",
+            "request": "launch",
+            "mainClass": "ArrayProblems",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch AssignCookies",
+            "request": "launch",
+            "mainClass": "AssignCookies",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch Base7",
+            "request": "launch",
+            "mainClass": "Base7",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch BinaryWatch",
+            "request": "launch",
+            "mainClass": "BinaryWatch",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch BipartiteGraph",
+            "request": "launch",
+            "mainClass": "BipartiteGraph",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch CheapestFlights",
+            "request": "launch",
+            "mainClass": "CheapestFlights",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch ClimbingStairs",
+            "request": "launch",
+            "mainClass": "ClimbingStairs",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch CoinChange",
+            "request": "launch",
+            "mainClass": "CoinChange",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch CountAndSay",
+            "request": "launch",
+            "mainClass": "CountAndSay",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch CountIslands",
+            "request": "launch",
+            "mainClass": "CountIslands",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch CourseSchedule",
+            "request": "launch",
+            "mainClass": "CourseSchedule",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch EqualArrays",
+            "request": "launch",
+            "mainClass": "EqualArrays",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch ExcelSheet",
+            "request": "launch",
+            "mainClass": "ExcelSheet",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch Fibonacci",
+            "request": "launch",
+            "mainClass": "Fibonacci",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch GFGDynamic",
+            "request": "launch",
+            "mainClass": "GFGDynamic",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch GFGString",
+            "request": "launch",
+            "mainClass": "GFGString",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch GoldMine",
+            "request": "launch",
+            "mainClass": "GoldMine",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch Graph",
+            "request": "launch",
+            "mainClass": "Graph",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch GridTraveller",
+            "request": "launch",
+            "mainClass": "GridTraveller",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch GuessNumber",
+            "request": "launch",
+            "mainClass": "GuessNumber",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch HappyNumber",
+            "request": "launch",
+            "mainClass": "HappyNumber",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch IntersectionArrays",
+            "request": "launch",
+            "mainClass": "IntersectionArrays",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch IsPalindrome",
+            "request": "launch",
+            "mainClass": "IsPalindrome",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch IslandParameter",
+            "request": "launch",
+            "mainClass": "IslandParameter",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch Isomorphic",
+            "request": "launch",
+            "mainClass": "Isomorphic",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch KnapSacks",
+            "request": "launch",
+            "mainClass": "KnapSacks",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch LRUCache",
+            "request": "launch",
+            "mainClass": "LRUCache",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch LRUCache2",
+            "request": "launch",
+            "mainClass": "LRUCache2",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch LastWord",
+            "request": "launch",
+            "mainClass": "LastWord",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch LetterCombinations",
+            "request": "launch",
+            "mainClass": "LetterCombinations",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch ListNode",
+            "request": "launch",
+            "mainClass": "ListNode",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch LongestCommonPrefixString",
+            "request": "launch",
+            "mainClass": "LongestCommonPrefixString",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch MatrixMultiply",
+            "request": "launch",
+            "mainClass": "MatrixMultiply",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch MaxHeap",
+            "request": "launch",
+            "mainClass": "MaxHeap",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch MaximumSubarray",
+            "request": "launch",
+            "mainClass": "MaximumSubarray",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch MergeSorted",
+            "request": "launch",
+            "mainClass": "MergeSorted",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch MinStack",
+            "request": "launch",
+            "mainClass": "MinStack",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch Minesweeper",
+            "request": "launch",
+            "mainClass": "Minesweeper",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch MinimumCostPath",
+            "request": "launch",
+            "mainClass": "MinimumCostPath",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch MinimumSpanningTree",
+            "request": "launch",
+            "mainClass": "MinimumSpanningTree",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch MyQueue",
+            "request": "launch",
+            "mainClass": "MyQueue",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch MyStack",
+            "request": "launch",
+            "mainClass": "MyStack",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch NeedleInHaystack",
+            "request": "launch",
+            "mainClass": "NeedleInHaystack",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch NeighbouringCities",
+            "request": "launch",
+            "mainClass": "NeighbouringCities",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch NumArray2",
+            "request": "launch",
+            "mainClass": "NumArray2",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch NumArray3",
+            "request": "launch",
+            "mainClass": "NumArray3",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch Number",
+            "request": "launch",
+            "mainClass": "Number",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch Palindrome",
+            "request": "launch",
+            "mainClass": "Palindrome",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch PascalTriangle",
+            "request": "launch",
+            "mainClass": "PascalTriangle",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch PathOnGrid",
+            "request": "launch",
+            "mainClass": "PathOnGrid",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch PlusOne",
+            "request": "launch",
+            "mainClass": "PlusOne",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch PowerOfTwo",
+            "request": "launch",
+            "mainClass": "PowerOfTwo",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch PowerValue",
+            "request": "launch",
+            "mainClass": "PowerValue",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch Primes",
+            "request": "launch",
+            "mainClass": "Primes",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch RansomNote",
+            "request": "launch",
+            "mainClass": "RansomNote",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch RelativeRanks",
+            "request": "launch",
+            "mainClass": "RelativeRanks",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch RemoveDuplicates",
+            "request": "launch",
+            "mainClass": "RemoveDuplicates",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch RemoveELement",
+            "request": "launch",
+            "mainClass": "RemoveELement",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch ReverseNumber",
+            "request": "launch",
+            "mainClass": "ReverseNumber",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch RomanToInt",
+            "request": "launch",
+            "mainClass": "RomanToInt",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch RottenOranges",
+            "request": "launch",
+            "mainClass": "RottenOranges",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch SearchInsert",
+            "request": "launch",
+            "mainClass": "SearchInsert",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch SingleNumber",
+            "request": "launch",
+            "mainClass": "SingleNumber",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch Solution",
+            "request": "launch",
+            "mainClass": "Solution",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch Sqrt",
+            "request": "launch",
+            "mainClass": "Sqrt",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch StepsByKnight",
+            "request": "launch",
+            "mainClass": "StepsByKnight",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch StockPurchase",
+            "request": "launch",
+            "mainClass": "StockPurchase",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch StringProblems",
+            "request": "launch",
+            "mainClass": "StringProblems",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch SumBinary",
+            "request": "launch",
+            "mainClass": "SumBinary",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch SumProblems",
+            "request": "launch",
+            "mainClass": "SumProblems",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch SummaryRanges",
+            "request": "launch",
+            "mainClass": "SummaryRanges",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch TopologicalSort",
+            "request": "launch",
+            "mainClass": "TopologicalSort",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch TrailingZeros",
+            "request": "launch",
+            "mainClass": "TrailingZeros",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch TreeNode",
+            "request": "launch",
+            "mainClass": "TreeNode",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch ValidBrackets",
+            "request": "launch",
+            "mainClass": "ValidBrackets",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch ValidPerfectSquare",
+            "request": "launch",
+            "mainClass": "ValidPerfectSquare",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch WeightedGraph",
+            "request": "launch",
+            "mainClass": "WeightedGraph",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch WordBank",
+            "request": "launch",
+            "mainClass": "WordBank",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch WordBoggle",
+            "request": "launch",
+            "mainClass": "WordBoggle",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
+            "name": "Launch WordPattern",
+            "request": "launch",
+            "mainClass": "WordPattern",
+            "projectName": "LeetCode_e208580d"
+        }
+    ]
+}
