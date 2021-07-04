@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -183,40 +184,106 @@ public class MaxHeap {
 
     public static void main(String[] args) {
         MaxHeap maxHeap = new MaxHeap();
-        maxHeap.insert(2);
-        System.out.println(maxHeap.isMaxHeap(0));
-        maxHeap.insert(4);
-        System.out.println(maxHeap.list);
-        System.out.println(maxHeap.isMaxHeap(0));
-        maxHeap.insert(6);
-        System.out.println(maxHeap.list);
-        System.out.println(maxHeap.isMaxHeap(0));
-        maxHeap.insert(1);
-        System.out.println(maxHeap.list);
-        System.out.println(maxHeap.isMaxHeap(0));
-        maxHeap.poll();
-        System.out.println(maxHeap.list);
-        System.out.println(maxHeap.isMaxHeap(0));
-        maxHeap.insert(7);
-        System.out.println(maxHeap.list);
-        System.out.println(maxHeap.isMaxHeap(0));
-        maxHeap.insert(8);
-        System.out.println(maxHeap.list);
-        System.out.println(maxHeap.isMaxHeap(0));
-        maxHeap.poll();
-        System.out.println(maxHeap.list);
-        System.out.println(maxHeap.isMaxHeap(0));
-        maxHeap.insert(10);
-        System.out.println(maxHeap.list);
-        System.out.println(maxHeap.isMaxHeap(0));
-        maxHeap.insert(100);
-        System.out.println(maxHeap.list);
-        System.out.println(maxHeap.isMaxHeap(0));
-        maxHeap.insert(8);
-        System.out.println(maxHeap.list);
-        System.out.println(maxHeap.isMaxHeap(0));
-        maxHeap.remove(10);
-        System.out.println(maxHeap.list);
-        System.out.println(maxHeap.isMaxHeap(0));
+        maxHeap.heapSort(new int[] { 3, 6, 5, 0, 8, 2, 1, 9 });
+        // maxHeap.insert(2);
+        // System.out.println(maxHeap.isMaxHeap(0));
+        // maxHeap.insert(4);
+        // System.out.println(maxHeap.list);
+        // System.out.println(maxHeap.isMaxHeap(0));
+        // maxHeap.insert(6);
+        // System.out.println(maxHeap.list);
+        // System.out.println(maxHeap.isMaxHeap(0));
+        // maxHeap.insert(1);
+        // System.out.println(maxHeap.list);
+        // System.out.println(maxHeap.isMaxHeap(0));
+        // maxHeap.poll();
+        // System.out.println(maxHeap.list);
+        // System.out.println(maxHeap.isMaxHeap(0));
+        // maxHeap.insert(7);
+        // System.out.println(maxHeap.list);
+        // System.out.println(maxHeap.isMaxHeap(0));
+        // maxHeap.insert(8);
+        // System.out.println(maxHeap.list);
+        // System.out.println(maxHeap.isMaxHeap(0));
+        // maxHeap.poll();
+        // System.out.println(maxHeap.list);
+        // System.out.println(maxHeap.isMaxHeap(0));
+        // maxHeap.insert(10);
+        // System.out.println(maxHeap.list);
+        // System.out.println(maxHeap.isMaxHeap(0));
+        // maxHeap.insert(100);
+        // System.out.println(maxHeap.list);
+        // System.out.println(maxHeap.isMaxHeap(0));
+        // maxHeap.insert(8);
+        // System.out.println(maxHeap.list);
+        // System.out.println(maxHeap.isMaxHeap(0));
+        // maxHeap.remove(10);
+        // System.out.println(maxHeap.list);
+        // System.out.println(maxHeap.isMaxHeap(0));
+
+    }
+
+    /**
+     * If heap size is n, then, range of leaves= floor(n/2) to n-1 and internal
+     * nodes from 0 to floor(n/2)-1
+     */
+
+    // given an array, build a max heap out of it
+
+    /**
+     * It is known that leaf nodes always follow the heap property Hence, only need
+     * to take care of internal nodes so you just need to heapify(swim down) the
+     * internal nodes in the reverse order cuz, to swim down both right and left
+     * have to follow heap property which is not true for the root here, but only
+     * for the parents of leaf nodes
+     */
+    void buildHeap(int[] arr) {
+        System.out.println(Arrays.toString(arr));
+        int size = arr.length;
+        for (int i = size / 2 - 1; i >= 0; i--) {
+            percolateDown(arr, i, size);
+        }
+        System.out.println(Arrays.toString(arr));
+        System.out.println(checkMaxHeap(arr, 0));
+    }
+
+    private void percolateDown(int[] arr, int i, int size) {
+        int leftChildIndex = 2 * i + 1, rightChildIndex = 2 * i + 2, maxChildIndex = i;
+        if (leftChildIndex < size && arr[leftChildIndex] > arr[maxChildIndex])
+            maxChildIndex = leftChildIndex;
+        if (rightChildIndex < size && arr[rightChildIndex] > arr[maxChildIndex])
+            maxChildIndex = rightChildIndex;
+        if (maxChildIndex != i) {
+            int temp = arr[i];
+            arr[i] = arr[maxChildIndex];
+            arr[maxChildIndex] = temp;
+            percolateDown(arr, maxChildIndex, size);
+        }
+    }
+
+    private boolean checkMaxHeap(int arr[], int curr) {
+        int size = arr.length;
+        if (curr >= size)
+            return true;
+
+        int lchild = curr * 2 + 1, rchild = curr * 2 + 2;
+        if (lchild < size && arr[lchild] > arr[curr])
+            return false;
+        if (rchild < size && arr[rchild] > arr[curr])
+            return false;
+        return checkMaxHeap(arr, lchild) && checkMaxHeap(arr, rchild);
+    }
+
+    public void heapSort(int[] arr) {
+        System.out.println("original array= " + Arrays.toString(arr));
+        buildHeap(arr);
+        System.out.println("build max heap = " + Arrays.toString(arr));
+        for (int i = arr.length - 1; i >= 1; i--) {
+            int temp = arr[0];
+            arr[0] = arr[i];
+            arr[i] = temp;
+            percolateDown(arr, 0, i);
+        }
+        System.out.println("sorted array= " + Arrays.toString(arr));
     }
 }

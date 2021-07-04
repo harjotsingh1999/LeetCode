@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -702,10 +703,57 @@ public class StringProblems {
         return lps;
     }
 
+    // TODO:
+    public int longestPalindromeSubseq(String s) {
+        System.out.println(s);
+        int n = s.length();
+        int[][] dp = new int[n][n];
+
+        for (int k = 0; k < dp.length; k++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j <= i; j++) {
+                    if (i == j) {
+                        dp[i][j] = 1;
+                    } else if (j - i == 1) {
+                        dp[i][j] = s.charAt(i) == s.charAt(j) ? 2 : 1;
+                    } else if (i > 0 && j > 0 && i < j) {
+                        if (s.charAt(i) == s.charAt(j))
+                            dp[i][j] = 2 + dp[i - 1][j - 1];
+                        else
+                            dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]);
+                    }
+                    System.out.println("i= " + i + " j= " + j + " ans= " + dp[i][j]);
+                }
+            }
+        }
+        {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j <= i; j++) {
+                    if (i == j) {
+                        dp[i][j] = 1;
+                    } else if (j - i == 1) {
+                        dp[i][j] = s.charAt(i) == s.charAt(j) ? 2 : 1;
+                    } else if (i > 0 && j > 0 && i < j) {
+                        if (s.charAt(i) == s.charAt(j))
+                            dp[i][j] = 2 + dp[i - 1][j - 1];
+                        else
+                            dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]);
+                    }
+                    System.out.println("i= " + i + " j= " + j + " ans= " + dp[i][j]);
+                }
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            System.out.println(Arrays.toString(dp[i]));
+        }
+        return dp[n - 1][n - 1];
+    }
+
     public static void main(String[] args) {
         StringProblems stringProblems = new StringProblems();
         // String[] words = { "adsdf", "sfd" };
         // System.out.println(Arrays.toString(stringProblems.findWords(words)));
-        System.out.println(stringProblems.longestPalindromicSubstring("babab"));
+        // System.out.println(stringProblems.longestPalindromicSubstring("babab"));
+        System.out.println(stringProblems.longestPalindromeSubseq("bbbad"));
     }
 }
