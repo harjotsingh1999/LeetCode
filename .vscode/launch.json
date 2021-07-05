@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch MedianFinder",
+            "request": "launch",
+            "mainClass": "MedianFinder",
+            "projectName": "LeetCode_e208580d"
+        },
+        {
+            "type": "java",
             "name": "Launch test",
             "request": "launch",
             "mainClass": "test",
