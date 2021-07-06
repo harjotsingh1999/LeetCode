@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * A Binary Heap is a Binary Tree with following properties. 1) It’s a complete
@@ -285,5 +283,77 @@ public class MaxHeap {
             percolateDown(arr, 0, i);
         }
         System.out.println("sorted array= " + Arrays.toString(arr));
+    }
+
+    /**
+     * Given an integer array nums and an integer k, return the k most frequent
+     * elements. You may return the answer in any order.
+     * 
+     * 
+     * 
+     * Example 1:
+     * 
+     * Input: nums = [1,1,1,2,2,3], k = 2 Output: [1,2] Example 2:
+     * 
+     * Input: nums = [1], k = 1 Output: [1]
+     * 
+     * 
+     * Constraints:
+     * 
+     * 1 <= nums.length <= 105 k is in the range [1, the number of unique elements
+     * in the array]. It is guaranteed that the answer is unique.
+     * 
+     * 
+     * Follow up: Your algorithm's time complexity must be better than O(n log n),
+     * where n is the array's size.
+     */
+
+    // Runtime: 7 ms, faster than 98.74% of Java online submissions for Top K
+    // Frequent Elements.
+    // Memory Usage: 41.3 MB, less than 91.23% of Java online submissions for Top K
+    // Frequent Elements.
+
+    // TC= O(n + n + klogn )
+    public int[] topKFrequent(int[] nums, int k) {
+        HashMap<Integer, Pair> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (map.containsKey(nums[i])) {
+                map.get(nums[i]).incrementFreq();
+            } else {
+                map.put(nums[i], new Pair(nums[i]));
+            }
+        }
+
+        PriorityQueue<Pair> pq = new PriorityQueue<>(new Comparator<Pair>() {
+            @Override
+            public int compare(Pair o1, Pair o2) {
+                return o2.freq - o1.freq;
+            }
+        });
+
+        // putting elements in pq= O(n)
+        for (int key : map.keySet()) {
+            pq.offer(map.get(key));
+        }
+
+        // popping k times= O(klogn)
+        int[] ans = new int[k];
+        for (int i = 0; i < k; i++) {
+            ans[i] = pq.poll().key;
+        }
+        return ans;
+    }
+
+    class Pair {
+        int key, freq;
+
+        Pair(int key) {
+            this.key = key;
+            this.freq = 1;
+        }
+
+        void incrementFreq() {
+            this.freq += 1;
+        }
     }
 }
