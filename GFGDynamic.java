@@ -147,11 +147,6 @@ public class GFGDynamic {
                 // System.out.println("Strings \"" + s1.substring(0, i) + "\" and \"" +
                 // s2.substring(0, j)
                 // + "\" have lcs= " + dp[i][j]);
-                // try {
-                // Thread.sleep(500);
-                // } catch (InterruptedException e) {
-                // e.printStackTrace();
-                // }
             }
         }
         System.out.println("lcs= " + dp[s1.length()][s2.length()]);
@@ -470,10 +465,41 @@ public class GFGDynamic {
         return dp[n - 1] == Integer.MAX_VALUE ? -1 : dp[n - 1];
     }
 
+    static String longestPalin(String S) {
+        // code here
+        boolean[][] dp = new boolean[S.length()][S.length()];
+        int n = S.length();
+        int lps = 1;
+        String lp = String.valueOf(S.charAt(0));
+        for (int i = 0; i < n; i++) {
+            dp[i][i] = true;
+        }
+
+        for (int len = 2; len <= n; len++) {
+            for (int i = 0; i <= n - len; i++) {
+                int j = i + len - 1;
+
+                if (len == 2)
+                    dp[i][j] = (S.charAt(i) == S.charAt(j));
+                else
+                    dp[i][j] = (S.charAt(i) == S.charAt(j)) && dp[i + 1][j - 1];
+
+                if (dp[i][j] && lps < len) {
+                    lps = len;
+                    lp = S.substring(i, j + 1);
+                }
+                System.out.println(
+                        "len= " + len + " i= " + i + " j= " + j + "dp= " + dp[i][j] + " lps= " + lps + " lp= " + lp);
+            }
+        }
+        System.out.println(lp);
+        return lp;
+    }
+
     public static void main(String[] args) {
         GFGDynamic gfgDynamic = new GFGDynamic();
         // gfgDynamic.longestSubsequence(8, new int[] { -1, 3, 4, 5, 2, 2, 2, 2 });
-        gfgDynamic.longestCommonSubsequence("aggtab", "gxtxayb");
+        // gfgDynamic.longestCommonSubsequence("aggtab", "gxtxayb");
         // gfgDynamic.longestCommonSubsequence("aab", "azb");
 
         // gfgDynamic.maximizeCuts(4, 2, 1, 1);
@@ -482,5 +508,6 @@ public class GFGDynamic {
         // gfgDynamic.minJumps(new int[] { 1, 4, 3, 2, 6, 7 });
         // gfgDynamic.minJumpsTab(new int[] { 2, 3, 1, 1, 4 });
         // gfgDynamic.minJumpsTab(new int[] { 2, 3, 1, 1, 2, 4, 2, 0, 1, 1 });
+        longestPalin("aaaabbaa");
     }
 }

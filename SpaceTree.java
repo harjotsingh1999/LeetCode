@@ -1,23 +1,13 @@
 import java.io.BufferedReader;
 import java.util.*;
-import java.util.concurrent.Semaphore;
 import java.io.*;
 
 public class SpaceTree {
     static HashMap<String, Node> map = new HashMap<>();
-    static Semaphore db = new Semaphore(1);
-    static Semaphore mutex = new Semaphore(1);
-    static int rc = 0;
 
     public static void main(String args[]) throws Exception {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        // Scanner read = new Scanner(System.in);
-
-        // String[] nums = br.readLine().split(" ");
-        // int nNodes = read.nextInt();
-        // int cCount = read.nextInt();
-        // int nQueries = read.nextInt();
 
         int nNodes = Integer.parseInt(br.readLine());
         int cCount = Integer.parseInt(br.readLine());
@@ -49,24 +39,20 @@ public class SpaceTree {
 
         System.out.println("map= " + map);
 
-        // read.nextLine();
-        synchronized (SpaceTree.class) {
-            for (int i = 0; i < nQueries; i++) {
-                // String qry = read.nextLine();
-                String qry = br.readLine();
-                System.out.println("query= " + qry);
-                String[] qs = qry.split(" ");
+        for (int i = 0; i < nQueries; i++) {
+            // String qry = read.nextLine();
+            String qry = br.readLine();
+            System.out.println("query= " + qry);
+            String[] qs = qry.split(" ");
 
-                if (qs[0].equals("1")) {
-                    System.out.println(lock(qs[1], qs[2]));
-                } else if (qs[0].equals("2")) {
-                    System.out.println(unlock(qs[1], qs[2]));
-                } else {
-                    System.out.println(upgrade(qs[1], qs[2]));
-                }
+            if (qs[0].equals("1")) {
+                System.out.println(lock(qs[1], qs[2]));
+            } else if (qs[0].equals("2")) {
+                System.out.println(unlock(qs[1], qs[2]));
+            } else {
+                System.out.println(upgrade(qs[1], qs[2]));
             }
         }
-        // read.close();
 
     }
 
@@ -81,11 +67,7 @@ public class SpaceTree {
             return false;
         if (curr.lockedMap.get(uid) != curr.lockedDescendents)
             return false;
-        // int[] count = new int[1];
-        // if (!checkAllDecendentsLockedBySameUser(curr, uid)) {
-        // System.out.println("SpaceTree.upgrade() false");
-        // return false;
-        // }
+
         curr.lockedBy = uid;
         curr.isLocked = true;
         curr.lockedDescendents = 0;
@@ -103,19 +85,6 @@ public class SpaceTree {
             parent = parent.parent;
         }
     }
-
-    // private static boolean checkAllDecendentsLockedBySameUser(Node curr, String
-    // uid) {
-    // for (Node child : curr.children) {
-    // if (!child.isLocked || !child.lockedBy.equals(uid)) {
-    // System.out.println("SpaceTree.checkAllDecendentsLockedBySameUser() not locked
-    // " + child);
-    // return false;
-    // }
-    // return checkAllDecendentsLockedBySameUser(child, uid);
-    // }
-    // return true;
-    // }
 
     private static void unlockAllDescendents(Node curr) {
         for (Node child : curr.children) {
@@ -155,20 +124,16 @@ public class SpaceTree {
     private static boolean lock(String key, String uid) {
         Node node = map.get(key);
 
-        // while (test_and_set());
-
         if (isLocked(node)) {
-            // lock = false;
+
+            return false;
+        }
+
+        if (!canLock(node)) {
             return false;
         }
 
         node.isLocked = true;
-
-        if (!canLock(node)) {
-            node.isLocked = false;
-            return false;
-        }
-
         node.lockedBy = uid;
 
         Node parentNode = node.parent;
@@ -178,15 +143,8 @@ public class SpaceTree {
             parentNode.lockedMap.put(uid, parentNode.lockedMap.getOrDefault(uid, 0) + 1);
             parentNode = parentNode.parent;
         }
-        // lock = false;
         return true;
     }
-
-    // static boolean test_and_set() {
-    //     boolean r = lock;
-    //     lock = true;
-    //     return r;
-    // }
 
     public static boolean canLock(Node node) {
 

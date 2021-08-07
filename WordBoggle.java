@@ -49,6 +49,10 @@ public class WordBoggle {
     // 1 ≤ N ≤ 15
     // 1 ≤ R, C ≤ 50
     // 1 ≤ length of Word ≤ 60
+
+    int[] rr = { -1, -1, -1, 1, 1, 1, 0, 0 };
+    int[] cc = { 1, -1, 0, 1, -1, 0, 1, -1 };
+
     public void wordBoggle(char board[][], String[] dictionary) {
         // Write your code here
 
@@ -64,7 +68,7 @@ public class WordBoggle {
             for (int j = 0; j < board[0].length; j++) {
                 findWords(i, j, str, board, visited, dic, found);
                 // try {
-                // Thread.sleep(5000);
+                // Thread.sleep(1000);
                 // } catch (InterruptedException e) {
                 // //
                 // e.printStackTrace();
@@ -83,24 +87,21 @@ public class WordBoggle {
         if (dic.contains(str) && !found.contains(str))
             found.add(str);
         System.out.println("Currently at " + i + "," + j + " str= " + str);
-        for (int k = -1; k <= 1; k++) {
-            for (int k2 = -1; k2 <= 1; k2++) {
-                if (i + k < 0 || i + k > board.length - 1 || j + k2 < 0 || j + k2 > board[0].length - 1)
-                    continue;
-                else if (k == 0 && k2 == 0)
-                    continue;
-                else if (visited[i + k][j + k2])
-                    continue;
-                // System.out.println("i,j= " + i + "," + j + " and k,k2= " + k + "," + k2 + "
-                // str= " + str);
-                findWords(i + k, j + k2, str, board, visited, dic, found);
-                // try {
-                // Thread.sleep(5000);
-                // } catch (InterruptedException e) {
-                //
-                // e.printStackTrace();
-                // }
-            }
+        for (int k = 0; k < 8; k++) {
+            int newr = i + rr[k];
+            int newc = j + cc[k];
+            if (newr < 0 || newr > board.length - 1 || newc < 0 || newc > board[0].length - 1)
+                continue;
+            else if (visited[newr][newc])
+                continue;
+            System.out.println("i,j= " + i + "," + j + " and newr, newc= " + newr + "," + newc + " str= " + str);
+            findWords(newr, newc, str, board, visited, dic, found);
+            // try {
+            // Thread.sleep(1000);
+            // } catch (InterruptedException e) {
+            // e.printStackTrace();
+            // }
+
         }
         str = str.substring(0, str.length() - 1);
         visited[i][j] = false;

@@ -101,6 +101,7 @@ public class MinimumSpanningTree {
             parent[node] = findAbsoluteParent(parent[node], parent);
             return parent[node];
         }
+
     }
 
     // union of roots of two trees

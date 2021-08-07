@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -786,17 +787,59 @@ public class TreeNode {
             VOTUtil(root.right, map, x + 1);
     }
 
+    public void antiClockWiseSpiralLevelOrder(TreeNode root) {
+        ArrayList<ArrayList<Integer>> levels = new ArrayList<>();
+        int h = heightOfTree(root);
+        for (int i = 0; i < h; i++) {
+            levels.add(new ArrayList<Integer>());
+        }
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        int level = 0;
+        while (!q.isEmpty()) {
+            int size = q.size();
+            while (size > 0) {
+                TreeNode curr = q.poll();
+                levels.get(level).add(curr.val);
+                if (curr.left != null)
+                    q.offer(curr.left);
+                if (curr.right != null)
+                    q.offer(curr.right);
+                size -= 1;
+            }
+            level += 1;
+        }
+        System.out.println(levels);
+
+        int lo = 0, hi = levels.size() - 1;
+        while (lo < hi) {
+            Collections.reverse(levels.get(lo));
+            System.out.print(levels.get(lo) + " ");
+            System.out.print(levels.get(hi) + " ");
+            lo += 1;
+            hi -= 1;
+        }
+        if (lo == hi) {
+            Collections.reverse(levels.get(lo));
+            System.out.print(levels.get(lo) + " ");
+        }
+    }
+
     public static void main(String[] args) {
         TreeNode root = new TreeNode(1);
         root.left = new TreeNode(2);
         root.right = new TreeNode(3);
         root.left.left = new TreeNode(4);
         root.left.right = new TreeNode(5);
-        root.right.left = new TreeNode(6);
-        root.right.right = new TreeNode(7);
+        root.right.right = new TreeNode(6);
+        root.left.left.left = new TreeNode(7);
+        root.left.left.right = new TreeNode(8);
+        root.right.right.left = new TreeNode(9);
+        root.right.right.right = new TreeNode(10);
         root.printTreeLevelByLevel(root);
-        System.out.println(Arrays.toString(root.findMode(root)));
-        root.vertialOrderTraversal(root);
+        root.antiClockWiseSpiralLevelOrder(root);
+        // System.out.println(Arrays.toString(root.findMode(root)));
+        // root.vertialOrderTraversal(root);
         // System.out.println(root.binaryTreePaths(root).toString());
         // TreeNode root2 = new TreeNode(1);
         // root2.left = new TreeNode(2);
