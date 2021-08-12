@@ -1,12 +1,10 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class StringProblems {
@@ -752,11 +750,37 @@ public class StringProblems {
         return dp[n - 1][n - 1];
     }
 
+    public void removeDuplicates(String str) {
+        Stack<Character> st = new Stack<>();
+
+        for (int i = 0; i < str.length();) {
+            if (st.empty()) {
+                st.push(str.charAt(i));
+                i += 1;
+            } else {
+                if (str.charAt(i) == st.peek()) {
+                    while (i < str.length() && str.charAt(i) == st.peek())
+                        i += 1;
+                    st.pop();
+                } else {
+                    st.push(str.charAt(i));
+                    i += 1;
+                }
+            }
+            System.out.println("stack= " + st + " i= " + i);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        st.forEach((ch) -> sb.append(ch));
+        System.out.println(sb.toString());
+    }
+
     public static void main(String[] args) {
         StringProblems stringProblems = new StringProblems();
         // String[] words = { "adsdf", "sfd" };
         // System.out.println(Arrays.toString(stringProblems.findWords(words)));
         // System.out.println(stringProblems.longestPalindromicSubstring("babab"));
-        System.out.println(stringProblems.longestPalindromeSubseq("bbbad"));
+        // System.out.println(stringProblems.longestPalindromeSubseq("bbbad"));
+        stringProblems.removeDuplicates("geeksforgeeg");
     }
 }

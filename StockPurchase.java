@@ -1,4 +1,8 @@
+import java.util.HashMap;
+
 public class StockPurchase {
+
+    // bruteforce
     public int maxProfit2(int[] prices) {
         int maxpro = 0;
         int currentProfit = 0;
@@ -79,15 +83,69 @@ public class StockPurchase {
                     maxPro += (prices[i] - buyingPrice);
                     buyingPrice = prices[i];
                 }
-
             }
         }
         return maxPro;
     }
 
+    // valley peak approach, just add the difference between each transaction
+    // when the price of second day is more than price of first day
+    public int maxProfitAnyNumberOfTransactions(int[] prices) {
+        int profit = 0;
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] > prices[i - 1])
+                profit += prices[i] - prices[i - 1];
+        }
+        return profit;
+    }
+
+    // max 2 transactions allowed
+
+    // buy at minima ans sell at maxima to make a profit
+    // but point is to decide which minima and maxima to choose
+
+    // at every point we have 3 choices, to buy, to sell or to skip
+    // under terms and conditions that
+    // cannot sell before buy
+    // cannot buy and sell on same day
+    public void maxProfitInTwoTransactions(int[] prices) {
+        HashMap<String, Integer> memo = new HashMap<>();
+
+        System.out.println(maxPro2TransactionsRecur(prices, 0, 2, false, memo));
+    }
+
+    public int maxPro2TransactionsRecur(int[] prices, int curDay, int remaining, boolean stockInHand,
+            HashMap<String, Integer> memo) {
+
+        System.out.println(curDay + " " + remaining + " " + stockInHand);
+        if (curDay >= prices.length || remaining == 0)
+            return 0;
+
+        String key = curDay + "," + remaining + "," + stockInHand;
+        if (memo.containsKey(key))
+            return memo.get(key);
+        // profit i can gain if I skip the current days
+        int result = maxPro2TransactionsRecur(prices, curDay + 1, remaining, stockInHand, memo);
+
+        // if stock in hand, will have to sell, and get max of selling vs skipping at
+        // this point
+        if (stockInHand)
+            result = Math.max(result,
+                    maxPro2TransactionsRecur(prices, curDay + 1, remaining - 1, false, memo) + prices[curDay]);
+
+        // otherwise I can try buying, and get max of buying vs skipping
+        else
+            result = Math.max(result,
+                    maxPro2TransactionsRecur(prices, curDay + 1, remaining, true, memo) - prices[curDay]);
+
+        return result;
+    }
+
     public static void main(String[] args) {
         StockPurchase stockPurchase = new StockPurchase();
-        int[] arr = { 7, 6, 4, 3, 1 };
-        System.out.println(stockPurchase.maxProfit(arr));
+        // int[] arr = { 7, 6, 4, 3, 1 };
+        // System.out.println(stockPurchase.maxProfit(arr));
+
+        stockPurchase.maxProfitInTwoTransactions(new int[] { 3, 3, 5, 0, 0, 3, 1, 4 });
     }
 }

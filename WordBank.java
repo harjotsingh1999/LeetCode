@@ -94,28 +94,6 @@ public class WordBank {
         return allWays;
     }
 
-    // public boolean canConstructTab(String[] bank, String target) {
-    // boolean[] dp = new boolean[target.length() + 1];
-
-    // // always possible to construct empty string
-    // dp[0] = true;
-
-    // // i =5 will tell whether it is possible to generate target.substring(0,5) or
-    // // not
-    // for (int i = 0; i <= target.length(); i++) {
-    // // only is this string is possible to be generated
-    // // we move aheaf
-    // if (dp[i] == true) {
-    // // current substring
-    // String curStr = target.substring(0, i + 1);
-    // for (String word : bank) {
-    // if(word.startsWith(curStr))
-    // }
-    // }
-    // }
-    // return dp[target.length()];
-    // }
-
     public static void main(String[] args) {
         WordBank wordBank = new WordBank();
         wordBank.allConstruct(new String[] { "purp", "p", "le", "ur", "purpl" }, "purple");

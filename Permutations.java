@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 import java.util.*;
 
 public class Permutations {
@@ -187,7 +188,7 @@ public class Permutations {
         StringBuilder curr = new StringBuilder();
         boolean[] added = new boolean[str.length()];
         permuteString(str, added, curr, ans);
-        // Collections.sort(ans);
+        Collections.sort(ans);
         System.out.println(ans);
     }
 
@@ -243,6 +244,41 @@ public class Permutations {
         }
     }
 
+    public static int findLexicographicRank(String str) {
+        int rank = 1;
+
+        boolean[] present = new boolean[26];
+        for (char ch : str.toCharArray()) {
+            present[ch - 'a'] = true;
+        }
+
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            int count = numberOfCharsThatOccurBefore(ch, present);
+            rank = rank + count * factorial(str.length() - i - 1);
+            present[ch - 'a'] = false;
+            System.out.println("rank of " + str.substring(0, i + 1) + " is " + rank);
+        }
+        return rank;
+    }
+
+    private static int factorial(int i) {
+        int fact = 1;
+        for (int j = 1; j <= i; j++) {
+            fact *= j;
+        }
+        return fact;
+    }
+
+    private static int numberOfCharsThatOccurBefore(char ch, boolean[] present) {
+        int count = 0;
+        for (int i = 0; i < ch - 'a'; i++) {
+            if (present[i])
+                count += 1;
+        }
+        return count;
+    }
+
     public static void main(String[] args) {
         // Permutations.previousPermutation(new int[] { 2, 3, 1, 5, 4 });
         // Permutations.previousPermutation(new int[] { 1, 3, 2 });
@@ -254,7 +290,8 @@ public class Permutations {
         // Permutations.nextPermutationString("ba");
 
         // Permutations.printAllPermutations(new int[] { 1, 2, 3, 4 });
-        // Permutations.allStringPermutations("acgo");
-        Permutations.nthPermutation(3, 2);
+        Permutations.allStringPermutations("star");
+        System.out.println(Permutations.findLexicographicRank("star"));
+        // Permutations.nthPermutation(3, 2);
     }
 }

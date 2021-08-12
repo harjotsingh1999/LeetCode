@@ -836,8 +836,8 @@ public class TreeNode {
         root.left.left.right = new TreeNode(8);
         root.right.right.left = new TreeNode(9);
         root.right.right.right = new TreeNode(10);
-        root.printTreeLevelByLevel(root);
-        root.antiClockWiseSpiralLevelOrder(root);
+        // root.printTreeLevelByLevel(root);
+        // root.antiClockWiseSpiralLevelOrder(root);
         // System.out.println(Arrays.toString(root.findMode(root)));
         // root.vertialOrderTraversal(root);
         // System.out.println(root.binaryTreePaths(root).toString());
@@ -856,5 +856,127 @@ public class TreeNode {
 
         // TreeNode r = root.invertTree(root);
         // root.printTreeLevelByLevel(r);
+
+        TreeNode cons = root.constructFromPreAndIn(new int[] { 4, 2, 5, 1, 3, 6 }, new int[] { 1, 2, 4, 5, 3, 6 });
+        root.printTreeLevelByLevel(cons);
+    }
+
+    /**
+     * Given a Binary Tree, find its Boundary Traversal. The traversal should be in
+     * the following order:
+     * 
+     * Left boundary nodes: defined as the path from the root to the left-most node
+     * ie- the leaf node you could reach when you always travel preferring the left
+     * subtree over the right subtree.
+     * 
+     * 
+     * Leaf nodes: All the leaf nodes except for the ones that are part of left or
+     * right boundary.
+     * 
+     * 
+     * Reverse right boundary nodes: defined as the path from the right-most node to
+     * the root. The right-most node is the leaf node you could reach when you
+     * always travel preferring the right subtree over the left subtree. Exclude the
+     * root from this as it was already included in the traversal of left boundary
+     * nodes.
+     * 
+     * 
+     * Note: If the root doesn't have a left subtree or right subtree, then the root
+     * itself is the left or right boundary.
+     */
+
+    ArrayList<Integer> printBoundary(TreeNode node) {
+        ArrayList<Integer> ans = new ArrayList<>();
+
+        ans.add(node.val);
+
+        // first print left boundary
+        leftBoundary(node.left, ans);
+
+        // then all leaves
+        getLeaves(node, ans);
+
+        // then right boundary from bottom up
+        rightBoundaryReverse(node.right, ans);
+        return ans;
+    }
+
+    private void leftBoundary(TreeNode node, ArrayList<Integer> ans) {
+        if (node == null)
+            return;
+
+        ans.add(node.val);
+
+        // if left present, go to left, else the right will be boundary if left is
+        // absent
+        if (node.left != null) {
+            leftBoundary(node.left, ans);
+        } else if (node.right != null) {
+            leftBoundary(node.right, ans);
+        }
+    }
+
+    private void getLeaves(TreeNode node, ArrayList<Integer> ans) {
+
+        if (node == null)
+            return;
+
+        // go to the leftmost leaf first
+        getLeaves(node.left, ans);
+
+        // if leaf, add to ans
+        if (node.left == null && node.right == null)
+            ans.add(node.val);
+
+        // then traverse for right leaf
+        getLeaves(node.right, ans);
+    }
+
+    private void rightBoundaryReverse(TreeNode node, ArrayList<Integer> ans) {
+
+        if (node == null)
+            return;
+
+        // first traverse all right boundary
+        if (node.right != null) {
+            rightBoundaryReverse(node.right, ans);
+        } else if (node.left != null) {
+            rightBoundaryReverse(node.left, ans);
+        }
+
+        // then add to ans cuz we need reverse order
+        ans.add(node.val);
+    }
+
+    // construct tree from preorder and level order traversal
+
+    int preStart = 0;
+
+    public TreeNode constructFromPreAndIn(int[] inorder, int[] preorder) {
+        preStart = 0;
+
+        return constructTree(inorder, preorder, 0, inorder.length - 1);
+
+    }
+
+    private TreeNode constructTree(int[] inorder, int[] preorder, int start, int end) {
+        if (start > end || start > inorder.length - 1 || end > inorder.length - 1)
+            return null;
+        TreeNode root = new TreeNode(preorder[preStart]);
+        preStart += 1;
+        // if (start == end)
+        // return root;
+        int indexInInorder = findIndexOf(root.val, inorder, start, end);
+        root.left = constructTree(inorder, preorder, start, indexInInorder - 1);
+        root.right = constructTree(inorder, preorder, indexInInorder + 1, end);
+        return root;
+    }
+
+    private int findIndexOf(int rootVal, int[] inorder, int start, int end) {
+        for (int i = start; i <= end; i++) {
+            if (inorder[i] == rootVal)
+                return i;
+        }
+        return -1;
     }
 }
