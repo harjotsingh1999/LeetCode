@@ -6,6 +6,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Launch Test",
+      "request": "launch",
+      "mainClass": "Test",
+      "projectName": "LeetCode_e208580d"
+    },
+    {
+      "type": "java",
+      "name": "Launch WordSearch",
+      "request": "launch",
+      "mainClass": "WordSearch",
+      "projectName": "LeetCode_e208580d"
+    },
+    {
+      "type": "java",
       "name": "Launch WordBreak",
       "request": "launch",
       "mainClass": "WordBreak",

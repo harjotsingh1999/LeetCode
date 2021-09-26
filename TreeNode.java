@@ -979,4 +979,24 @@ public class TreeNode {
         }
         return -1;
     }
+
+    // finding maximum sum path
+    int max = 0;
+
+    public int maxPathSum(TreeNode root) {
+        max = Integer.MIN_VALUE;
+        findMaxPath(root);
+        return max;
+    }
+
+    public int findMaxPath(TreeNode root) {
+        if (root == null)
+            return 0;
+
+        int left = Math.max(0, findMaxPath(root.left));
+        int right = Math.max(0, findMaxPath(root.right));
+        max = Math.max(max, left + right + root.val);
+        return Math.max(left, right) + root.val;
+    }
+
 }

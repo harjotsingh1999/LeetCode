@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -120,9 +121,94 @@ public class ArrayProblems {
         return max;
     }
 
+    public void sortElementsByFrequency(Integer[] arr) {
+        List<Integer> ans = Arrays.asList(arr);
+
+        HashMap<Integer, Integer> freqMap = new HashMap<>();
+        HashMap<Integer, Integer> indexMap = new HashMap<>();
+
+        for (int i = 0; i < arr.length; i++) {
+            if (!freqMap.containsKey(arr[i])) {
+                freqMap.put(arr[i], 1);
+                indexMap.put(arr[i], i);
+            } else {
+                freqMap.put(arr[i], freqMap.get(arr[i]) + 1);
+            }
+        }
+
+        System.out.println(ans);
+
+        ans.sort((a, b) -> {
+            if (freqMap.get(a) == freqMap.get(b))
+                return indexMap.get(a) - indexMap.get(b);
+            else
+                return freqMap.get(b) - freqMap.get(a);
+        });
+        System.out.println(ans);
+    }
+
+    public void separate0And1s(int[] arr) {
+        int low = 0, high = arr.length - 1;
+        while (low < high) {
+            if (arr[low] == 0)
+                low += 1;
+            else if (arr[high] == 1)
+                high -= 1;
+            else {
+                arr[low] = 0;
+                arr[high] = 1;
+                low += 1;
+                high -= 1;
+            }
+        }
+        System.out.println(Arrays.toString(arr));
+    }
+
+    public void separateOddAndEven(int[] arr) {
+        int low = 0, high = arr.length - 1;
+        while (low < high) {
+            if (arr[low] % 2 == 1)
+                low += 1;
+            else if (arr[high] % 2 == 0)
+                high -= 1;
+            else {
+                int temp = arr[low];
+                arr[low] = arr[high];
+                arr[high] = temp;
+                low += 1;
+                high -= 1;
+            }
+        }
+        System.out.println(Arrays.toString(arr));
+    }
+
+    public void separatePositiveAndNegtive(int[] arr) {
+        int low = 0, high = arr.length - 1;
+        while (low < high) {
+            if (arr[low] < 0)
+                low += 1;
+            else if (arr[high] > 0)
+                high -= 1;
+            else {
+                int temp = arr[low];
+                arr[low] = arr[high];
+                arr[high] = temp;
+                low += 1;
+                high -= 1;
+            }
+        }
+        System.out.println(Arrays.toString(arr));
+    }
+
     public static void main(String[] args) {
         ArrayProblems arrayProblems = new ArrayProblems();
         int[] arr = { 0, 0, 0, 0, 1, 1 };
-        System.out.println(arrayProblems.findMaxConsecutiveOnes(arr));
+        // System.out.println(arrayProblems.findMaxConsecutiveOnes(arr));
+
+        // arrayProblems.sortElementsByFrequency(new Integer[] { 4, 5, 6, 5, 5, 5, 4, 2,
+        // 3, 3, 999 });
+        arrayProblems.separate0And1s(new int[] { 1, 0, 1, 1, 0, 0, 1, 1, 0, 0 });
+        arrayProblems.separateOddAndEven(new int[] { 1, 2, 3, 4, 5, 5, 6, 7, 8 });
+        arrayProblems.separatePositiveAndNegtive(new int[] { 1, -2, 3, -4, 5, -5, 6, -7, 8 });
     }
 }
